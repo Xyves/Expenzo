@@ -1,0 +1,48 @@
+{
+  "name": "expenzo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next-sitemap && prisma generate && next build",
+    "start": "next start",
+    "eslint": "next lint --fix --dir src",
+    "prettier": "prettier --write .",
+    "lint": "npm eslint && npm prettier",
+    "check:types": "tsc --noEmit",
+    "drizzle:generate": "dotenv -e .env -- drizzle-kit generate",
+    "drizzle:migrate": "dotenv -e .env -- drizzle-kit migrate"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.12.2",
+    "@clerk/nextjs": "^6.21.0",
+    "@clerk/themes": "^2.2.49",
+    "@reduxjs/toolkit": "^2.8.2",
+    "dotenv": "^16.5.0",
+    "drizzle-graphql": "^0.8.5",
+    "graphql": "^16.11.0",
+    "next": "15.3.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.57.0",
+    "react-redux": "^9.2.0",
+    "zod": "^3.25.64"
+  },
+  "devDependencies": {
+    "@clerk/testing": "^1.8.0",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "dotenv-cli": "^8.0.0",
+    "drizzle-kit": "^0.31.1",
+    "drizzle-orm": "^0.44.2",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.3",
+    "mysql2": "^3.14.1",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^3.2.3"
+  }
+}
