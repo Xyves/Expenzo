@@ -11,7 +11,7 @@ export const transactions = mysqlTable("transactions", {
   category_id: int("category_id")
     .notNull()
     .references(() => categories.id),
-  user_id: int("user_id")
+  user_id: varchar("user_id", { length: 36 })
     .notNull()
     .references(() => users.id),
 });

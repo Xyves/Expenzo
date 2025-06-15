@@ -6,7 +6,7 @@ export const userCategories = mysqlTable("userCategories", {
   name: varchar("name", { length: 30 }),
   icon: varchar("icon", { length: 50 }),
   color: varchar("color", { length: 20 }),
-  user_id: int("user_id")
+  user_id: varchar("user_id", { length: 36 })
     .notNull()
     .references(() => users.id),
 });
