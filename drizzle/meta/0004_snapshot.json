@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "b3dd72b1-b6ab-44c9-a207-1e7ee3a98aa0",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "3f7ac77b-7fc2-4efe-8ee1-cdd50915cf8a",
+  "prevId": "9a5895c8-29fe-453a-81c8-161a4f33e650",
   "tables": {
     "categories": {
       "name": "categories",
@@ -96,7 +96,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "int",
+          "type": "varchar(36)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -175,7 +175,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "int",
+          "type": "varchar(36)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -213,48 +213,39 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
+          "type": "varchar(36)",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": true
+          "autoincrement": false
         },
-        "name": {
-          "name": "name",
-          "type": "varchar(16)",
+        "clerk_user_id": {
+          "name": "clerk_user_id",
+          "type": "varchar(191)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "email": {
           "name": "email",
-          "type": "varchar(255)",
+          "type": "varchar(36)",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
-        "password": {
-          "name": "password",
-          "type": "varchar(255)",
+        "username": {
+          "name": "username",
+          "type": "varchar(36)",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "datetime",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false,
-          "default": "(now())"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "onUpdate": true,
-          "default": "(now())"
+          "default": "'CURRENT_TIMESTAMP'"
         }
       },
       "indexes": {},
@@ -268,16 +259,10 @@
         }
       },
       "uniqueConstraints": {
-        "users_name_unique": {
-          "name": "users_name_unique",
+        "users_clerk_user_id_unique": {
+          "name": "users_clerk_user_id_unique",
           "columns": [
-            "name"
-          ]
-        },
-        "users_email_unique": {
-          "name": "users_email_unique",
-          "columns": [
-            "email"
+            "clerk_user_id"
           ]
         }
       },
@@ -288,7 +273,9 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"users\".\"name\"": "\"users\".\"username\""
+    }
   },
   "internal": {
     "tables": {},

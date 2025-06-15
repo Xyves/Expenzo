@@ -3,10 +3,17 @@
   "dialect": "mysql",
   "entries": [
     {
-      "idx": 0,
+      "idx": 3,
       "version": "5",
-      "when": 1749808224893,
-      "tag": "0000_mixed_forge",
+      "when": 1749966899831,
+      "tag": "0003_volatile_warbound",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1749967417497,
+      "tag": "0004_uneven_bruce_banner",
       "breakpoints": true
     }
   ]
