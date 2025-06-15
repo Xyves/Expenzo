@@ -1,16 +1,15 @@
 "use client";
-import MainLayout from "@/app/layout/MainLayout";
-import { SubmitHandler, useForm } from "react-hook-form";
 import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
-import { FormFields } from "../authentication/page";
-import { SignUpButton, useSignUp } from "@clerk/nextjs";
+import React, { useEffect, useState } from "react";
+import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
+import { useSignUp, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { registerSchema } from "@/app/types/zod";
 
 export default function Registration() {
-  const { register, handleSubmit } = useForm<FormFields>();
+  const { isSignedIn } = useUser();
   const { isLoaded, signUp, setActive } = useSignUp();
   const [emailAddress, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -18,16 +17,41 @@ export default function Registration() {
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
   const [showPassword, setShowPassword] = useState(true);
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data);
-  };
+  const [formErrors, setFormErrors] = useState({
+    username: "",
+    password: "",
+    emailAddress: "",
+  });
+  const [clerkError, setClerkError] = useState("");
   const router = useRouter();
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      router.replace("/dashboard");
+    }
+  }, [isLoaded, isSignedIn, router]);
   if (!isLoaded) {
     return null;
   }
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    setFormErrors({ username: "", password: "", emailAddress: "" });
     if (!isLoaded) {
+      return;
+    }
+    const result = registerSchema.safeParse({
+      username,
+      emailAddress,
+      password,
+    });
+    if (!result.success) {
+      const zodErrors = result.error.flatten().fieldErrors;
+      setFormErrors({
+        emailAddress: zodErrors.emailAddress?.[0] || "",
+        username: zodErrors.username?.[0] || "",
+        password: zodErrors.password?.[0] || "",
+      });
+      console.log("formErrors:", formErrors);
+
       return;
     }
     try {
@@ -54,9 +78,20 @@ export default function Registration() {
         await setActive({ session: completeSignup.createdSessionId });
         router.push("/dashboard");
       }
-    } catch (error: any) {
-      console.log(JSON.stringify(error, null, 2));
+    } catch (err) {
+      if (isClerkAPIResponseError(err)) {
+        // ✅ Handle Clerk-specific API errors
+        setClerkError(err.errors?.[0]?.message || "Something went wrong");
+        console.error("Clerk API Error:", JSON.stringify(err, null, 2));
+      } else {
+        // ❌ Fallback for unknown errors
+        setClerkError("An unexpected error occurred");
+        console.error("Unknown error:", err);
+      }
     }
+  }
+  if (!isLoaded || isSignedIn) {
+    return null;
   }
   return (
     <div className=" bg-no-repeat bg-cover bg-[url(/images/bg.png)]  h-full">
@@ -85,12 +120,14 @@ export default function Registration() {
                     <label htmlFor="username">username</label>
                     <input
                       type="text"
-                      {...register("username")}
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       placeholder=""
                       className="bg-[rgb(60,60,60)] w-full py-3 rounded-lg px-2"
                     />
+                    {formErrors.username && (
+                      <p className="text-red-700">{formErrors.username}</p>
+                    )}
                   </div>
                 </div>
                 <div aria-label="email" className="flex h-22">
@@ -104,6 +141,9 @@ export default function Registration() {
                       placeholder=""
                       className="bg-[rgb(60,60,60)] w-full py-3 rounded-lg px-2"
                     />
+                    {formErrors.emailAddress && (
+                      <p className="text-red-700">{formErrors.emailAddress}</p>
+                    )}
                   </div>
                 </div>
                 <div aria-label="password" className="flex h-22">
@@ -117,6 +157,10 @@ export default function Registration() {
                       required
                       className="bg-[rgb(60,60,60)] w-full py-3 rounded-lg px-2"
                     />
+                    {formErrors.password &&
+                      typeof formErrors.password === "string" && (
+                        <p className="text-red-700">{formErrors.password}</p>
+                      )}
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
@@ -139,6 +183,7 @@ export default function Registration() {
                   SIGN IN
                 </button>
               </div>
+
               <p>
                 Already have account? &nbsp;
                 <Link href="/authentication" className="underline">
