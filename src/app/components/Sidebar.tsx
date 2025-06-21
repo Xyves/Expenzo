@@ -1,25 +1,25 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
+import { SignOutButton, useUser } from "@clerk/nextjs";
 import {
   CalendarDays,
   ChartPie,
   CreditCard,
   LayoutDashboard,
-  Logs,
   Settings,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-
 export default function Sidebar() {
   const [isDropDownHidden, setIsDropDownHidden] = useState(false);
   const { user } = useUser();
+  const pathname = usePathname();
 
   return (
-    <aside className="  bg-[#1a1a1a] row-span-8  col-span-2 flex flex-col">
-      <ul className="flex flex-col px-6 my-4 gap-4">
-        <li aria-label="Overview" className="flex flex-col ">
+    <aside className="  bg-[#0c1b32] row-span-8  col-span-2 flex flex-col">
+      <ul className="flex flex-col   ">
+        <li aria-label="Dashboard" className="flex flex-col mb-10 pt-7">
           <Image
             height={100}
             width={100}
@@ -29,47 +29,68 @@ export default function Sidebar() {
           />
           <p className="text-2xl text-center">{user?.username}</p>
         </li>
-        <li className="px-2 py-3 rounded-xl text-xl flex items-center">
-          <LayoutDashboard className="mr-2" />
-          <p>Dashboard</p>
-        </li>
+      </ul>
+      <ul className="">
+        <Link href={"/dashboard"}>
+          <li
+            className={`${
+              pathname.startsWith("/dashboard") ? "text-[#00ffff]" : ""
+            } px-3 py-5 rounded-sm text-xl flex items-center hover:bg-[#5c85e7] cursor-pointer`}
+          >
+            <LayoutDashboard className="mr-2" />
+            <p className="">Dashboard</p>
+          </li>
+        </Link>
         <Link href="/transactions">
           <li
             aria-label="Transactions"
-            className="px-2 py-3 rounded-xl text-xl bg-blue-700 flex items-center"
-          >
-            <Logs className="mr-2" />
-            <p>Transactions</p>
-          </li>
-        </Link>
-        <Link href="expenses">
-          <li
-            aria-label="Transactions"
-            className="px-2 py-3 rounded-xl text-xl flex items-center"
+            className={`${
+              pathname.startsWith("/transactions") ? "text-[#00ffff]" : ""
+            } px-3 py-5 rounded-sm text-xl  flex items-center hover:bg-[#5c85e7] cursor-pointer`}
           >
             <CreditCard className="mr-2" />
-            <p>Expenses</p>
+
+            <p className="">Transactions</p>
           </li>
         </Link>
-
         <li
           aria-label="Charts"
-          className="px-2 py-3 rounded-xl text-xl flex justify-center flex-col"
+          className="rounded-sm text-xl flex justify-center flex-col "
           onClick={() => setIsDropDownHidden(!isDropDownHidden)}
         >
-          <div className="flex">
+          <li className="flex py-5 px-3 hover:bg-[#5c85e7] cursor-pointer">
             <ChartPie className="mr-2" />
             <p>Charts</p>
-          </div>
-          <ul className={`${!isDropDownHidden ? "hidden" : "inline"}`}>
+          </li>
+          <ul className={`${!isDropDownHidden ? "hidden" : "inline"} `}>
             <Link href="/chart/categories">
-              <li className="px-2 py-3 rounded-xl text-xl">Categories</li>
+              <li
+                className={`  ${
+                  pathname.startsWith("/chart/categories")
+                    ? "text-[#00ffff]"
+                    : ""
+                } px-3 py-5 rounded-sm text-xl hover:bg-[#5c85e7] cursor-pointer pl-7`}
+              >
+                Categories
+              </li>
             </Link>
             <Link href="/chart/time">
-              <li className="px-2 py-3 rounded-xl text-xl">Time</li>
+              <li
+                className={` ${
+                  pathname.startsWith("/chart/time") ? "text-[#00ffff]" : ""
+                } px-3 py-5 rounded-sm text-xl hover:bg-[#5c85e7] cursor-pointer pl-7`}
+              >
+                Time
+              </li>
             </Link>
             <Link href="/chart/calendar">
-              <li className="px-2 py-3 rounded-xl text-xl">Calendar</li>
+              <li
+                className={` ${
+                  pathname.startsWith("/chart/calendar") ? "text-[#00ffff]" : ""
+                } px-3 py-5 rounded-sm text-xl hover:bg-[#5c85e7] cursor-pointer pl-7`}
+              >
+                Calendar
+              </li>
             </Link>
           </ul>
         </li>
@@ -77,21 +98,36 @@ export default function Sidebar() {
         <Link href="/calendar">
           <li
             aria-label="Calendar"
-            className="px-2 py-3 rounded-xl text-xl flex items-center"
+            className={` ${
+              pathname.startsWith("/calendar") ? "text-[#00ffff]" : ""
+            } px-3 py-5 rounded-sm text-xl flex items-center hover:bg-[#5c85e7] cursor-pointer`}
           >
             <CalendarDays className="mr-2" />
             <p>Calendar</p>
           </li>
         </Link>
-        <li aria-label="Settings" className="px-2 py-3 rounded-xl text-xl flex">
-          <Settings className="mr-2" />
-          <span>Settings</span>
-        </li>
+        <Link href="/settings">
+          <li
+            aria-label="Settings"
+            className={`${
+              pathname.startsWith("/settings") ? "text-[#00ffff]" : ""
+            } px-3 py-5 rounded-sm text-xl flex hover:bg-[#5c85e7] cursor-pointer`}
+          >
+            <Settings className="mr-2" />
+            <span>Settings</span>
+          </li>
+        </Link>
       </ul>
       <ul className="mt-auto">
-        <li aria-label="theme" className="px-2 py-3 rounded-xl text-xl ">
-          Logout
-        </li>
+        <SignOutButton
+          onSignOut={() => {
+            router.push("/authentication");
+          }}
+        >
+          <li aria-label="theme" className="px-3 py-3 rounded-xl text-xl ">
+            Logout
+          </li>
+        </SignOutButton>
       </ul>
     </aside>
   );

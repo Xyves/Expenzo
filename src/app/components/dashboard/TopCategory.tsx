@@ -13,10 +13,10 @@ export default function TopCategory() {
   ];
   return (
     <>
-      <h2 className="text-2xl pb-6 px-2 w-full border-b-2 border-[#252525]">
+      <h2 className="text-2xl pb-6 px-2 w-full border-b-2  border-[#252525] ">
         Top Category{" "}
       </h2>
-      <Box display="flex" gap={4} sx={{ backgroundColor: "#1b1b1b", p: 3 }}>
+      <Box display="flex" gap={4} sx={{ backgroundColor: "#0c1b32", p: 3 }}>
         <PieChart
           height={300}
           width={300}
@@ -52,7 +52,7 @@ export default function TopCategory() {
                   backgroundColor: item.color,
                 }}
               />
-              <Typography variant="body2" color="white" width={150}>
+              <Typography variant="body2" color="#8d8d8d" width={150}>
                 {item.label}
               </Typography>
               <Typography variant="body2" color="white">
