@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import transactionModalReducer from "@/app/features/ui/uiSlice";
+import uiReducer from "@/app/features/ui/uiSlice";
 
 export const store = configureStore({
   reducer: {
-    transactionModal: transactionModalReducer,
+    ui: uiReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

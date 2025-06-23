@@ -1,116 +1,39 @@
 import { RootState } from "@/app/store";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { create } from "domain";
+import { createSlice } from "@reduxjs/toolkit";
 export type TabType = "dashboard" | "transactions" | "categories";
 export type AddTransactionType = "income" | "expense" | "idle";
-interface BaseModalState {
+interface UiState {
   isModalVisible: boolean;
+  transactionType: AddTransactionType;
   selectedTab: TabType;
 }
-
-interface TransactionModalState extends BaseModalState {
-  transactionType: AddTransactionType;
-}
-
-interface IncomeExpenseModalState extends BaseModalState {}
-interface categoryModal extends BaseModalState {}
-
-type UiModalsState = {
-  transactionModal: TransactionModalState;
-  IncomeExpenseModal: BaseModalState;
-  selectCategoryModal: BaseModalState;
-};
-export type ModalName =
-  | "transactionModal"
-  | "IncomeExpenseModal"
-  | "selectCategoryModal";
-interface UiState {
-  modals: UiModalsState;
-}
 const initialState: UiState = {
-  modals: {
-    transactionModal: {
-      isModalVisible: false,
-      transactionType: "idle",
-      selectedTab: "dashboard",
-    },
-    IncomeExpenseModal: {
-      isModalVisible: false,
-      selectedTab: "dashboard",
-    },
-    selectCategoryModal: {
-      isModalVisible: false,
-      selectedTab: "dashboard",
-    },
-  },
+  isModalVisible: false,
+  transactionType: "idle",
+  selectedTab: "dashboard",
 };
-const uiSlice = createSlice({
-  name: "ui",
+
+const transactionModalSlice = createSlice({
+  name: "transactionModal",
   initialState,
   reducers: {
-    openModal: (
-      state,
-      action: PayloadAction<{
-        modalName: ModalName;
-        data?: Partial<(typeof state.modals)[ModalName]>;
-      }>
-    ) => {
-      const { modalName, data } = action.payload;
-      state.modals[modalName].isModalVisible = true;
-      if (data) {
-        state.modals[modalName] = {
-          ...state.modals[modalName],
-          ...data,
-        };
-      }
+    openModal(state, action) {
+      state.isModalVisible = true;
+      state.transactionType = action.payload.transactionType;
     },
-
-    closeModal: (state, action: PayloadAction<{ modalName: ModalName }>) => {
-      const { modalName } = action.payload;
-      state.modals[modalName].isModalVisible = false;
+    closeModal(state) {
+      state.isModalVisible = false;
     },
-
-    toggleModal: (
-      state,
-      action: PayloadAction<{
-        modalName: ModalName;
-        data?: Partial<TransactionModalState | IncomeExpenseModalState>;
-      }>
-    ) => {
-      const { modalName, data } = action.payload;
-      const modal = state.modals[modalName];
-      modal.isModalVisible = !modal.isModalVisible;
-
-      if (data) {
-        state.modals[modalName] = {
-          ...modal,
-          ...data,
-        };
-      }
+    toggleModal(state, action) {
+      state.isModalVisible = !state.isModalVisible;
+      state.transactionType = action.payload.transactionType;
     },
   },
 });
-
-// const transactionModalSlice = createSlice({
-//   name: "transactionModal",
-//   initialState,
-//   reducers: {
-//     openModal(state, action) {
-//       state.isModalVisible = true;
-//       state.transactionType = action.payload.transactionType;
-//     },
-//     closeModal(state) {
-//       state.isModalVisible = false;
-//     },
-//     toggleModal(state, action) {
-//       state.isModalVisible = !state.isModalVisible;
-//       state.transactionType = action.payload.transactionType;
-//     },
-//   },
-// });
-export const { openModal, closeModal, toggleModal } = uiSlice.actions;
-
-export const selectModalState = (modalName: ModalName) => (state: RootState) =>
-  state.ui.modals[modalName];
-
-export default uiSlice.reducer;
+export const { openModal, closeModal, toggleModal } =
+  transactionModalSlice.actions;
+export const selectIsModalOpen = (state: RootState) =>
+  state.transactionModal.isModalVisible;
+export const selectTransactionType = (state: RootState) =>
+  state.transactionModal.transactionType;
+export default transactionModalSlice.reducer;
