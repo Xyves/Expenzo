@@ -2,6 +2,7 @@
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import {
   CalendarDays,
+  ChartColumn,
   ChartPie,
   CreditCard,
   LayoutDashboard,
@@ -53,13 +54,33 @@ export default function Sidebar() {
             <p className="">Transactions</p>
           </li>
         </Link>
+        <Link href={"/dashboard"}>
+          <li
+            className={`${
+              pathname.startsWith("/reports") ? "text-[#00ffff]" : ""
+            } px-3 py-5 rounded-sm text-xl flex items-center hover:bg-[#5c85e7] cursor-pointer`}
+          >
+            <LayoutDashboard className="mr-2" />
+            <p className="">Reports</p>
+          </li>
+        </Link>
+        <Link href={"/budget"}>
+          <li
+            className={`${
+              pathname.startsWith("/budget") ? "text-[#00ffff]" : ""
+            } px-3 py-5 rounded-sm text-xl flex items-center hover:bg-[#5c85e7] cursor-pointer`}
+          >
+            <ChartPie className="mr-2" />
+            <p className="">Budget</p>
+          </li>
+        </Link>
         <li
           aria-label="Charts"
           className="rounded-sm text-xl flex justify-center flex-col "
           onClick={() => setIsDropDownHidden(!isDropDownHidden)}
         >
           <li className="flex py-5 px-3 hover:bg-[#5c85e7] cursor-pointer">
-            <ChartPie className="mr-2" />
+            <ChartColumn className="mr-2" />
             <p>Charts</p>
           </li>
           <ul className={`${!isDropDownHidden ? "hidden" : "inline"} `}>
