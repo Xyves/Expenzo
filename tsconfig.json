@@ -1,17 +1,23 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "allowImportingTsExtensions": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "es2020"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
+    "noEmit": false,
     "esModuleInterop": true,
-    "module": "commonjs",
+    "outDir": "dist",
+    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
     "incremental": true,
     "plugins": [
@@ -20,11 +26,16 @@
       }
     ],
     "baseUrl": ".",
-
     "paths": {
-      "@/*": ["src/*"],
-      "/*": ["./node_modules/*"],
-      "@lib/": ["./app/lib/*"]
+      "@/*": [
+        "src/*"
+      ],
+      "/*": [
+        "./node_modules/*"
+      ],
+      "@lib/": [
+        "./app/lib/*"
+      ]
     }
   },
   "include": [
@@ -34,7 +45,14 @@
     ".next/types/**/*.ts",
     "src/server.js",
     "src/db/schema/index.js",
-    "src/db/db.js"
+    "src/db/db.js",
+    "src/db/schema/userCategories.js",
+    "src/db/schema/users.js",
+    "src/db/schema/transactions.js",
+    "src/db/schema/categories.js",
+    "src/db/schema/budgets.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
