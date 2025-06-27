@@ -1,4 +1,4 @@
-import { mysqlTable, varchar, datetime } from "drizzle-orm/mysql-core";
+import { mysqlTable, varchar, datetime, float } from "drizzle-orm/mysql-core";
 export const users = mysqlTable("users", {
   id: varchar("id", { length: 36 }).primaryKey(),
   clerkUserId: varchar("clerk_user_id", { length: 191 }).notNull().unique(),
@@ -7,4 +7,5 @@ export const users = mysqlTable("users", {
   createdAt: datetime("created_at", { mode: "string" }).default(
     "CURRENT_TIMESTAMP"
   ),
+  balance: float("balance"),
 });

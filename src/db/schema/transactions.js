@@ -1,6 +1,6 @@
 import { mysqlTable, int, varchar, text, date } from "drizzle-orm/mysql-core";
-import { users } from "./users";
-import { categories } from "./categories";
+import { users } from "./users.js";
+import { categories } from "./categories.js";
 
 export const transactions = mysqlTable("transactions", {
   id: int("id").primaryKey().autoincrement(),

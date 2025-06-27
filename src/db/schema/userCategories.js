@@ -1,5 +1,5 @@
 import { int, mysqlTable, varchar } from "drizzle-orm/mysql-core";
-import { users } from "./users";
+import { users } from "./users.js";
 
 export const userCategories = mysqlTable("userCategories", {
   id: int("id").primaryKey().autoincrement(),
