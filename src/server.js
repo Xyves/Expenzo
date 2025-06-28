@@ -1,11 +1,25 @@
-import { buildSchema } from "drizzle-graphql";
-
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { db } from "./db/db.js";
-const { schema } = buildSchema(db);
+import { buildSchema } from "drizzle-graphql";
+import { db } from "./db/db.js"; // your DB instance
 
-const server = new ApolloServer({ schema });
-const { url } = await startStandaloneServer(server);
+async function startApolloServer() {
+  try {
+    const { schema } = buildSchema(db);
 
-console.log(`🚀 Server ready at ${url}`);
+    const server = new ApolloServer({
+      schema,
+    });
+
+    const { url } = await startStandaloneServer(server, {
+      listen: { port: 4100 },
+    });
+
+    console.log(`🚀 Server ready at ${url}`);
+  } catch (error) {
+    console.error("Failed to start Apollo Server:", error);
+    process.exit(1);
+  }
+}
+
+startApolloServer();
