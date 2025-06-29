@@ -15,6 +15,41 @@
       "when": 1749967417497,
       "tag": "0004_uneven_bruce_banner",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1751179454584,
+      "tag": "0005_icy_starhawk",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1751179965413,
+      "tag": "0006_light_tinkerer",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1751180025243,
+      "tag": "0007_giant_sleepwalker",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1751180224675,
+      "tag": "0008_previous_leech",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1751180257295,
+      "tag": "0009_flimsy_rage",
+      "breakpoints": true
     }
   ]
 }
