@@ -5,9 +5,9 @@ import {
   mysqlTable,
   timestamp,
 } from "drizzle-orm/mysql-core";
-import { users } from "./users";
-import { categories } from "./categories";
-export const budgets = mysqlTable("categories", {
+import { users } from "./users.js";
+import { categories } from "./categories.js";
+export const budgets = mysqlTable("budgets", {
   id: int("id").primaryKey().autoincrement(),
   userId: int("user_id")
     .notNull()
