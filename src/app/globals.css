@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@tailwind utilities;
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins/Poppins-Regular.ttf") format("truetype");
+  font-style: normal;
+}
+html,
+body {
+  height: 100vh;
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -22,6 +32,18 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", sans-serif;
+
   height: full;
+}
+.MuiChartsAxis-tickLabel {
+  color: whitrede !important;
+  font-size: 12px !important;
+}
+.MuiChartsLabel-root,
+.MuiChartsAxis-root {
+  color: white !important;
+}
+.MuiChartsAxis-root .MuiChartsAxis-directionY {
+  color: white;
 }
