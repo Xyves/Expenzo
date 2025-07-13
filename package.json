@@ -1,8 +1,8 @@
 {
   "name": "expenzo",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "apollo": "ts-node-esm src/server.js",
@@ -17,8 +17,8 @@
     "drizzle:migrate": "dotenv -e .env -- drizzle-kit migrate"
   },
   "dependencies": {
-    "@apollo/server": "^4.12.2",
     "@clerk/clerk-js": "^5.69.2",
+    "@clerk/clerk-sdk-node": "^5.1.6",
     "@clerk/nextjs": "^6.21.0",
     "@clerk/themes": "^2.2.49",
     "@emotion/styled": "^11.14.0",

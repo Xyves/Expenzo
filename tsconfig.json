@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext",
-      "es2020"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext", "es2020"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -27,15 +22,9 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "/*": [
-        "./node_modules/*"
-      ],
-      "@lib/": [
-        "./app/lib/*"
-      ]
+      "@/*": ["src/*"],
+      "/*": ["./node_modules/*"],
+      "@lib/": ["./app/lib/*"]
     }
   },
   "include": [
@@ -50,9 +39,10 @@
     "src/db/schema/users.js",
     "src/db/schema/transactions.js",
     "src/db/schema/categories.js",
-    "src/db/schema/budgets.js"
+    "src/db/schema/budgets.js",
+    "src/graphql/resolvers.js",
+    "src/graphql/resolvers/dashboard/queries.js",
+    "src/graphql/resolvers/transactions/queries.js"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
