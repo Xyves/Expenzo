@@ -7,7 +7,8 @@ import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { useSignUp, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { registerSchema } from "@/app/types/zod";
-
+import { useMutation } from "@apollo/client";
+import { REGISTER_USER } from "@/services/userServices.js";
 export default function Registration() {
   const { isSignedIn } = useUser();
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -17,11 +18,13 @@ export default function Registration() {
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
   const [showPassword, setShowPassword] = useState(true);
+  const [registerUser, { data, loading, error }] = useMutation(REGISTER_USER);
   const [formErrors, setFormErrors] = useState({
     username: "",
     password: "",
     emailAddress: "",
   });
+  const { user } = useUser();
   const [clerkError, setClerkError] = useState("");
   const router = useRouter();
   useEffect(() => {
@@ -75,8 +78,23 @@ export default function Registration() {
         console.log(JSON.stringify(completeSignup, null, 2));
       }
       if (completeSignup.status === "complete") {
+        const result = await registerUser({
+          variables: {
+            clerkId: completeSignup.createdUserId,
+            email: emailAddress,
+            username: username,
+          },
+        });
         await setActive({ session: completeSignup.createdSessionId });
-        router.push("/dashboard");
+        console.log(completeSignup);
+        console.log("trying to register user");
+        if (result.data.registerNewUser.success) {
+          router.push("/dashboard");
+        } else {
+          console.error("error with inserting to db");
+          // Handle error
+        }
+        console.log("end of register");
       }
     } catch (err) {
       if (isClerkAPIResponseError(err)) {
@@ -193,8 +211,8 @@ export default function Registration() {
             </form>
           ) : (
             <form onSubmit={onPressVerify}>
-              <div className="space-y-2">
-                <label htmlFor="code">Verification code</label>
+              <div className="space-y-2 bg-gray-500 flex flex-col justify-center">
+                <label htmlFor="code">Verification code:</label>
                 <input
                   type="text"
                   id="code"
@@ -202,9 +220,15 @@ export default function Registration() {
                   onChange={(e) => setCode(e.target.value)}
                   placeholder="Enter verification code"
                   required
+                  className="bg-gray-600 py-4 px-2"
                 />
               </div>
-              <button type="submit">Verify Email</button>
+              <button
+                type="submit"
+                className="bg-blue-600 px-4 py-2 my-5 mx-auto flex justify-center"
+              >
+                Verify Email
+              </button>
             </form>
           )}
         </main>
