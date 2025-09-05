@@ -12,6 +12,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 import { ClerkProvider } from "@clerk/nextjs";
+
 export const metadata: Metadata = {
   title: "Expenzo",
   description: "Finance tracker",
@@ -24,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="h-[100vh]">
+      <body className="h-[100vh]" id="root">
         <ClerkProvider signInUrl="/authentication" signUpUrl="/registration">
           <Providers>{children}</Providers>
         </ClerkProvider>

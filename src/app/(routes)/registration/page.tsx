@@ -8,7 +8,7 @@ import { useSignUp, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { registerSchema } from "@/app/types/zod";
 import { useMutation } from "@apollo/client";
-import { REGISTER_USER } from "@/services/userServices.js";
+// import { REGISTER_USER } from "@/api/services/userServices.js";
 export default function Registration() {
   const { isSignedIn } = useUser();
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -18,7 +18,7 @@ export default function Registration() {
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
   const [showPassword, setShowPassword] = useState(true);
-  const [registerUser, { data, loading, error }] = useMutation(REGISTER_USER);
+  // const [registerUser, { data, loading, error }] = useMutation(REGISTER_USER);
   const [formErrors, setFormErrors] = useState({
     username: "",
     password: "",
@@ -65,49 +65,49 @@ export default function Registration() {
       console.log(JSON.stringify(error, null, 2));
     }
   }
-  async function onPressVerify(e: React.FormEvent) {
-    e.preventDefault();
-    if (!isLoaded) {
-      return;
-    }
-    try {
-      const completeSignup = await signUp.attemptEmailAddressVerification({
-        code,
-      });
-      if (completeSignup.status !== "complete") {
-        console.log(JSON.stringify(completeSignup, null, 2));
-      }
-      if (completeSignup.status === "complete") {
-        const result = await registerUser({
-          variables: {
-            clerkId: completeSignup.createdUserId,
-            email: emailAddress,
-            username: username,
-          },
-        });
-        await setActive({ session: completeSignup.createdSessionId });
-        console.log(completeSignup);
-        console.log("trying to register user");
-        if (result.data.registerNewUser.success) {
-          router.push("/dashboard");
-        } else {
-          console.error("error with inserting to db");
-          // Handle error
-        }
-        console.log("end of register");
-      }
-    } catch (err) {
-      if (isClerkAPIResponseError(err)) {
-        // ✅ Handle Clerk-specific API errors
-        setClerkError(err.errors?.[0]?.message || "Something went wrong");
-        console.error("Clerk API Error:", JSON.stringify(err, null, 2));
-      } else {
-        // ❌ Fallback for unknown errors
-        setClerkError("An unexpected error occurred");
-        console.error("Unknown error:", err);
-      }
-    }
-  }
+  // async function onPressVerify(e: React.FormEvent) {
+  //   e.preventDefault();
+  //   if (!isLoaded) {
+  //     return;
+  //   }
+  //   try {
+  //     const completeSignup = await signUp.attemptEmailAddressVerification({
+  //       code,
+  //     });
+  //     if (completeSignup.status !== "complete") {
+  //       console.log(JSON.stringify(completeSignup, null, 2));
+  //     }
+  //     if (completeSignup.status === "complete") {
+  //       const result = await registerUser({
+  //         variables: {
+  //           clerkId: completeSignup.createdUserId,
+  //           email: emailAddress,
+  //           username: username,
+  //         },
+  //       });
+  //       await setActive({ session: completeSignup.createdSessionId });
+  //       console.log(completeSignup);
+  //       console.log("trying to register user");
+  //       if (result.data.registerNewUser.success) {
+  //         router.push("/dashboard");
+  //       } else {
+  //         console.error("error with inserting to db");
+  //         // Handle error
+  //       }
+  //       console.log("end of register");
+  //     }
+  //   } catch (err) {
+  //     if (isClerkAPIResponseError(err)) {
+  //       // ✅ Handle Clerk-specific API errors
+  //       setClerkError(err.errors?.[0]?.message || "Something went wrong");
+  //       console.error("Clerk API Error:", JSON.stringify(err, null, 2));
+  //     } else {
+  //       // ❌ Fallback for unknown errors
+  //       setClerkError("An unexpected error occurred");
+  //       console.error("Unknown error:", err);
+  //     }
+  //   }
+  // }
   if (!isLoaded || isSignedIn) {
     return null;
   }

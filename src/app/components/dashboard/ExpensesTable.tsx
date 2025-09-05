@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function ExpensesTable() {
@@ -35,67 +36,32 @@ export default function ExpensesTable() {
   ];
   return (
     <div className=" w-full flex-1 ">
-      <div className="flex items-center text-2xl mb-4">
-        <p className="">Recent expenses</p>
-        <p className="ml-auto">View all</p>
+      <div className="flex items-center text-2xl pt-2 mb-10 border-b-2  border-[#252525] pb-4">
+        <p className="text-2xl">Recent expenses</p>
+        <Link href="/transactions" className="ml-auto">
+          <p className="ml-auto text-[#5c85e7]">See more</p>
+        </Link>
       </div>
-      <div className="flex text-sm text-white">
-        <ul className="flex-1">
-          <li>S.N</li>
-          <li>
-            <ul className="[&>li]:py-2">
-              {data.map((_, index) => (
-                <li key={index}>{index + 1}.</li>
-              ))}
-            </ul>
-          </li>
-        </ul>
-        <ul className="flex-1">
-          <li>Amount</li>
-          <li>
-            <ul className="[&>li]:py-2 text-white">
-              {data.map((item, index) => (
-                <li key={index}>{item.amount}</li>
-              ))}
-            </ul>
-          </li>
-        </ul>
+      <div className="flex flex-col text-sm w-full">
+        {/* Header */}
+        <div className="flex justify-between font-medium border-b pb-2">
+          <div className="w-20">S.N</div>
+          <div className="flex-1">Amount</div>
+          <div className="flex-1">Category</div>
+          <div className="flex-1">Notes</div>
+          <div className="flex-1">Date</div>
+        </div>
 
-        {/* Category */}
-        <ul className="flex-1">
-          <li>Category</li>
-          <li>
-            <ul className="[&>li]:py-2">
-              {data.map((item, index) => (
-                <li key={index}>{item.category}</li>
-              ))}
-            </ul>
-          </li>
-        </ul>
-
-        {/* Notes */}
-        <ul className="flex-1">
-          <li>Notes</li>
-          <li>
-            <ul className="[&>li]:py-2">
-              {data.map((item, index) => (
-                <li key={index}>{item.notes}</li>
-              ))}
-            </ul>
-          </li>
-        </ul>
-
-        {/* Date */}
-        <ul className="flex-1">
-          <li>Date</li>
-          <li>
-            <ul className="[&>li]:py-2">
-              {data.map((item, index) => (
-                <li key={index}>{item.date}</li>
-              ))}
-            </ul>
-          </li>
-        </ul>
+        {/* Rows */}
+        {data.map((item, index) => (
+          <div key={index} className="flex justify-between border-b py-2">
+            <div className="w-20">{index + 1}.</div>
+            <div className="flex-1 text-white">{item.amount}</div>
+            <div className="flex-1">{item.category}</div>
+            <div className="flex-1">{item.notes}</div>
+            <div className="flex-1">{item.date}</div>
+          </div>
+        ))}
       </div>
     </div>
   );

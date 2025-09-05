@@ -1,7 +1,6 @@
 "use client";
-import { loginSchema } from "@/app/types/zod";
 import { useSignIn, useSignUp, useUser } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
+
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,16 +25,8 @@ export default function Authentication() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setErrors(undefined);
-    if (!isLoaded) return;
-    const result = loginSchema.safeParse({
-      username,
-      password,
-    });
-    if (!result.success) {
-      // show validation errors to user
-      console.error(result.error.format());
-      return;
-    }
+    console.log("Test auth route");
+    if (!isLoaded || !signIn) return;
     try {
       const signInAttempt = await signIn.create({
         identifier: username,
@@ -43,7 +34,8 @@ export default function Authentication() {
       });
       if (signInAttempt.status === "complete") {
         await setActive({ session: signInAttempt.createdSessionId });
-        router.push("/");
+        console.log("logged in");
+        router.replace("/dashboard");
       }
     } catch (err) {
       if (isClerkAPIResponseError(err)) setErrors(err.errors);
@@ -51,13 +43,12 @@ export default function Authentication() {
     }
   }
   useEffect(() => {
-    if (isLoaded && isSignedIn) {
-      // Redirect signed-in users away from this page
+    if (isLoaded) {
       router.replace("/dashboard");
     }
   }, [isLoaded, isSignedIn, router]);
   if (!isLoaded || isSignedIn) {
-    return null; // or a loading spinner
+    return null;
   }
   return (
     <div className=" bg-no-repeat bg-cover bg-[url(/images/bg.png)]  h-full">
@@ -75,8 +66,7 @@ export default function Authentication() {
         </nav>
         <main className=" p-3 my-20 mx-auto w-1/2">
           <form
-            action=""
-            onSubmit={handleSubmit}
+            onSubmit={(e) => handleSubmit(e)}
             className="flex flex-col items-center"
           >
             <div className="w-3/4 flex flex-col  mx-auto justify-center">
@@ -96,7 +86,7 @@ export default function Authentication() {
                 <div className="w-full  flex flex-col justify-center  relative">
                   <label htmlFor="password">password</label>
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={!showPassword ? "text" : "password"}
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
                     placeholder=""
@@ -105,13 +95,15 @@ export default function Authentication() {
                   />
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2"
+                    onClick={() => {
+                      setShowPassword(!showPassword);
+                    }}
+                    className="absolute right-2 top-1/2 "
                   >
                     {!showPassword ? (
-                      <Eye className="h-4 w-4 text-gray-500" />
+                      <Eye className="h-4 w-4 text-gray-400 mt-auto" />
                     ) : (
-                      <EyeOff className="h-4 w-4 text-gray-500" />
+                      <EyeOff className="h-4 w-4 text-gray-400 mt-auto" />
                     )}
                   </button>
                 </div>
@@ -119,7 +111,7 @@ export default function Authentication() {
             </div>
             <button
               className="bg-[#00dac6] w-32  py-2 mb-4 mt-10 active:bg-blue-300  text-black rounded-2xl"
-              type="button"
+              type="submit"
             >
               SIGN IN
             </button>
