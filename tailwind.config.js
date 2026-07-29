@@ -14,4 +14,7 @@ module.exports = {
     },
   },
   plugins: [],
+  turbopack: {
+    root: path.join(__dirname, '..'),
+  },
 };
