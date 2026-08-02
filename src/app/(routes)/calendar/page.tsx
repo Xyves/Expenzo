@@ -5,7 +5,7 @@ export default function page() {
   return (
     <MainLayout>
       <div className=" h-full bg-[#0b0b0b]">
-        <p>Calendarsss</p>
+        <p>Calendar</p>
       </div>
     </MainLayout>
   );
