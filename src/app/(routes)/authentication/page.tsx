@@ -1,134 +1,121 @@
 "use client";
-import { useSignIn, useSignUp, useUser } from "@clerk/nextjs";
 
-import { Eye, EyeOff } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { ClerkAPIError } from "@clerk/types";
+import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useEffect, useState } from "react";
-import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
-export type FormFields = {
-  username: string;
-  password: string;
-  email?: string;
-};
+import { type FormEvent, useState } from "react";
+import LogoWithText from "@/app/components/auth/LogoWithText";
+import FormInput from "@/app/components/auth/FormInput";
 export default function Authentication() {
-  const { isLoaded, setActive } = useSignUp();
-  const { isSignedIn } = useUser();
-  const { signIn } = useSignIn();
+  const { signIn, errors, fetchStatus } = useSignIn();
+  const globalErrors = errors.global ?? [];
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+
   const router = useRouter();
-  const [errors, setErrors] = React.useState<ClerkAPIError[]>();
-  async function handleSubmit(e: FormEvent) {
+  const isSubmitting = fetchStatus === "fetching";
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setErrors(undefined);
-    console.log("Test auth route");
-    if (!isLoaded || !signIn) return;
-    try {
-      const signInAttempt = await signIn.create({
-        identifier: username,
-        password,
+
+    const { error } = await signIn.password({
+      identifier: username,
+      password,
+    });
+
+    if (error) {
+      console.error(JSON.stringify(error, null, 2));
+      return;
+    }
+
+    if (signIn.status === "complete") {
+      const { error: finalizeError } = await signIn.finalize({
+        navigate: ({ session, decorateUrl }) => {
+          if (session?.currentTask) {
+            console.error("Session task required:", session.currentTask);
+            return;
+          }
+
+          const dashboardUrl = decorateUrl("/dashboard");
+
+          if (dashboardUrl.startsWith("http")) {
+            window.location.href = dashboardUrl;
+          } else {
+            router.replace(dashboardUrl);
+          }
+        },
       });
-      if (signInAttempt.status === "complete") {
-        await setActive({ session: signInAttempt.createdSessionId });
-        console.log("logged in");
-        router.replace("/dashboard");
+
+      if (finalizeError) {
+        console.error(JSON.stringify(finalizeError, null, 2));
       }
-    } catch (err) {
-      if (isClerkAPIResponseError(err)) setErrors(err.errors);
-      console.error(JSON.stringify(err, null, 2));
+
+      return;
     }
-  }
-  useEffect(() => {
-    if (isLoaded) {
-      router.replace("/dashboard");
+
+    if (signIn.status === "needs_second_factor") {
+      console.error("Two-factor authentication is required.");
+      return;
     }
-  }, [isLoaded, isSignedIn, router]);
-  if (!isLoaded || isSignedIn) {
-    return null;
+
+    if (signIn.status === "needs_client_trust") {
+      console.error("Client verification is required.");
+      return;
+    }
+
+    console.error("Sign-in attempt was not completed:", signIn.status);
   }
+
   return (
-    <div className=" bg-no-repeat bg-cover bg-[url(/images/bg.png)]  h-full">
-      <div className="flex flex-col w-[70%] mx-auto h-full ">
-        <nav className="px-2 my-10   flex items-center justify-center ">
-          <Image
-            src={"/images/logo.png"}
-            height={100}
-            width={100}
-            alt=""
-          ></Image>
-          <p className="lg:text-5xl md:text-4xl sm:text-3xl text-2xl">
-            Expenzo
-          </p>
-        </nav>
-        <main className=" p-3 my-20 mx-auto w-1/2">
-          <form
-            onSubmit={(e) => handleSubmit(e)}
-            className="flex flex-col items-center"
-          >
-            <div className="w-3/4 flex flex-col  mx-auto justify-center">
-              <div aria-label="username" className="flex h-22">
-                <div className="w-full  flex flex-col justify-center">
-                  <label htmlFor="username">username</label>
-                  <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder=""
-                    className="bg-[rgb(60,60,60)] w-full py-3 rounded-lg px-2"
-                  />
-                </div>
-              </div>
-              <div aria-label="password" className="flex h-22">
-                <div className="w-full  flex flex-col justify-center  relative">
-                  <label htmlFor="password">password</label>
-                  <input
-                    type={!showPassword ? "text" : "password"}
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                    placeholder=""
-                    required
-                    className="bg-[rgb(60,60,60)] w-full py-3 rounded-lg px-2"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowPassword(!showPassword);
-                    }}
-                    className="absolute right-2 top-1/2 "
-                  >
-                    {!showPassword ? (
-                      <Eye className="h-4 w-4 text-gray-400 mt-auto" />
-                    ) : (
-                      <EyeOff className="h-4 w-4 text-gray-400 mt-auto" />
-                    )}
-                  </button>
-                </div>
-              </div>
+    <div className="h-full bg-[url(/images/bg.png)] bg-cover bg-no-repeat">
+      <div className="mx-auto flex h-full sm:70% w-full flex-col">
+        <LogoWithText />
+
+        <main className="mx-auto my-20  p-3 bg-black/(--bg-opacity) [--bg-opacity:90%] hover:[--bg-opacity:100%]">
+          <form onSubmit={handleSubmit} className="flex flex-col items-center">
+            <div className="mx-auto flex flex-col justify-center">
+              <FormInput
+                name="username"
+                label="Username"
+                type="text"
+                value={username}
+                onValueChange={setUsername}
+                autoComplete="username"
+                required
+                error={errors.fields.identifier?.message}
+              />
+
+              <FormInput
+                name="password"
+                label="Password"
+                type="password"
+                value={password}
+                onValueChange={setPassword}
+                autoComplete="current-password"
+                required
+                error={errors.fields.password?.message}
+              />
             </div>
+
+            {globalErrors.length > 0 && (
+              <ul className="text-red-500">
+                {globalErrors.map((error, index) => (
+                  <li key={`${error.code}-${index}`}>
+                    {error.longMessage ?? error.message}
+                  </li>
+                ))}
+              </ul>
+            )}
+
             <button
-              className="bg-[#00dac6] w-32  py-2 mb-4 mt-10 active:bg-blue-300  text-black rounded-2xl"
               type="submit"
+              disabled={isSubmitting}
+              className="mb-4 mt-10 w-full rounded-xl bg-orange-button py-2 font-bold text-black disabled:cursor-not-allowed disabled:opacity-50"
             >
-              SIGN IN
+              {isSubmitting ? "SIGNING IN..." : "Login"}
             </button>
-            <p>
-              Don&apos;t have an account? &nbsp;
-              <Link href="/registration" className="underline">
-                Sign up
-              </Link>
-            </p>
           </form>
-          {errors && (
-            <ul>
-              {errors.map((el, index) => (
-                <li key={index}>{el.longMessage}</li>
-              ))}
-            </ul>
-          )}
         </main>
       </div>
     </div>
