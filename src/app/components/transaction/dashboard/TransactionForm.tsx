@@ -12,7 +12,7 @@ export default function TransactionForm() {
   const todayISO = new Date().toISOString().split("T")[0];
   const todayFormatted = format(new Date(), "dd-MM-yy");
   const isTransactionModalOpen = useAppSelector(
-    selectIsModalOpen("transactionModal")
+    selectIsModalOpen("transactionModal"),
   );
   const dispatch = useAppDispatch();
   const type = useAppSelector(selectTransactionType);
@@ -63,7 +63,7 @@ export default function TransactionForm() {
                   toggleModal({
                     modalName: "selectCategoryModal",
                     data: { transactionType: "expense" },
-                  })
+                  }),
                 )
               }
             >

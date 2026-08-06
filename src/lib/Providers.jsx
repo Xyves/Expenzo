@@ -3,11 +3,7 @@
 import { Provider } from "react-redux";
 import { store } from "@/app/store";
 
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-} from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 
 import { ApolloProvider } from "@apollo/client/react";
 
@@ -20,10 +16,8 @@ const client = new ApolloClient({
 
 export default function Providers({ children }) {
   return (
-      <Provider store={store}>
-        <ApolloProvider client={client}>
-          {children}
-        </ApolloProvider>
-      </Provider>
+    <Provider store={store}>
+      <ApolloProvider client={client}>{children}</ApolloProvider>
+    </Provider>
   );
 }

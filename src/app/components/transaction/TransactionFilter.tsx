@@ -28,7 +28,7 @@ export default function TransactionFilter() {
   };
 
   useClickOutside(pickerRef as React.RefObject<HTMLElement>, () =>
-    setIsModalVisible(false)
+    setIsModalVisible(false),
   );
 
   return (

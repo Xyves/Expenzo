@@ -40,8 +40,8 @@ export default function TransactionsContainer() {
   const handleCheckOne = (id: number) => {
     setTransactions(
       transactions.map((tx) =>
-        tx.id === id ? { ...tx, checked: !tx.checked } : tx
-      )
+        tx.id === id ? { ...tx, checked: !tx.checked } : tx,
+      ),
     );
   };
   return (
@@ -69,8 +69,8 @@ export default function TransactionsContainer() {
               sum > 0
                 ? "text-green-600"
                 : sum < 0
-                ? "text-red-700"
-                : "text-white"
+                  ? "text-red-700"
+                  : "text-white"
             } `}
           >
             {sum} $

@@ -13,8 +13,8 @@ export default function MonthContainer() {
     startDate && endDate
       ? `${formatDate(startDate)} - ${formatDate(endDate)}`
       : date instanceof Date
-      ? formatMonthYear(date)
-      : formatMonthYear(now);
+        ? formatMonthYear(date)
+        : formatMonthYear(now);
 
   const handlePrev = () => {
     const newDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);

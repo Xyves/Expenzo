@@ -15,7 +15,7 @@ export default function AddTransactionButtons() {
             toggleModal({
               modalName: "transactionModal",
               data: { transactionType: "income" },
-            })
+            }),
           )
         }
       >
@@ -28,7 +28,7 @@ export default function AddTransactionButtons() {
             toggleModal({
               modalName: "transactionModal",
               data: { transactionType: "expense" },
-            })
+            }),
           )
         }
       >
