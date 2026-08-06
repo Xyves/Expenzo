@@ -1,6 +1,6 @@
 import { defineConfig } from "drizzle-kit";
 export default defineConfig({
-  dialect: "mysql", // 'mysql' | 'sqlite' | 'turso'
+  dialect: "postgresql",
   schema: "./src/db/schema",
   // out: "./drizzle",
   dbCredentials: {
