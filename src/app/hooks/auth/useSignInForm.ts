@@ -23,46 +23,33 @@ export default function useSignInForm() {
     });
 
     if (error) {
-      console.error(JSON.stringify(error, null, 2));
+      console.error(error);
       return;
     }
 
     if (signIn.status === "complete") {
-      const { error: finalizeError } = await signIn.finalize({
-        navigate: ({ session, decorateUrl }) => {
-          if (session?.currentTask) {
-            console.error("Session task required:", session.currentTask);
-            return;
-          }
-
-          const dashboardUrl = decorateUrl("/dashboard");
-
-          if (dashboardUrl.startsWith("http")) {
-            window.location.href = dashboardUrl;
-          } else {
-            router.replace(dashboardUrl);
-          }
-        },
-      });
-
-      if (finalizeError) {
-        console.error(JSON.stringify(finalizeError, null, 2));
-      }
-
+      await finalizeSignIn();
       return;
     }
 
-    if (signIn.status === "needs_second_factor") {
-      console.error("Two-factor authentication is required.");
-      return;
-    }
+    console.error("Additional authentication required:", signIn.status);
+  }
 
-    if (signIn.status === "needs_client_trust") {
-      console.error("Client verification is required.");
-      return;
-    }
+  async function finalizeSignIn() {
+    const { error } = await signIn.finalize({
+      navigate: ({ session, decorateUrl }) => {
+        if (session?.currentTask) {
+          console.error("Session task required:", session.currentTask);
+          return;
+        }
 
-    console.error("Sign-in attempt was not completed:", signIn.status);
+        window.location.href = decorateUrl("/dashboard");
+      },
+    });
+
+    if (error) {
+      console.error(error);
+    }
   }
   return {
     username,
