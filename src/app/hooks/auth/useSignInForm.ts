@@ -1,9 +1,5 @@
-import LogoWithText from "@/app/components/auth/LogoWithText";
-import FormInput from "@/app/components/auth/FormInput";
-import FormErrors from "@/app/components/auth/FormErrors";
 import { useSignIn } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { type FormEvent, useState } from "react";
+import { type SubmitEvent, useState } from "react";
 
 export default function useSignInForm() {
   const { signIn, errors, fetchStatus } = useSignIn();
@@ -11,10 +7,9 @@ export default function useSignInForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const router = useRouter();
   const isSubmitting = fetchStatus === "fetching";
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const { error } = await signIn.password({
