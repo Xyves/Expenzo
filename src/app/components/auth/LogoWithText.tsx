@@ -1,8 +1,10 @@
+"use client";
+
 import Image from "next/image";
 
 export default function LogoWithText() {
   return (
-    <nav className="my-10 flex items-center justify-center px-2">
+    <nav className="my-2 items-center justify-center select-none md:my-6 flex">
       <Image
         src="/images/logo.png"
         height={100}

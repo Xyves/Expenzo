@@ -47,7 +47,7 @@ export default function FormInput({
           aria-invalid={Boolean(error)}
           aria-describedby={error ? errorId : undefined}
           className={[
-            "w-full rounded-lg bg-[rgb(60,60,60)] px-2 py-3",
+            "w-full rounded-lg bg-[#222C3D]  px-2 py-3 focus:ring-[#C98BBB]  border border-[#3A3444]",
             isPassword ? "pr-10" : "",
             className,
           ].join(" ")}
@@ -64,9 +64,9 @@ export default function FormInput({
             className="absolute right-2 top-1/2 -translate-y-1/2"
           >
             {showPassword ? (
-              <EyeOff aria-hidden="true" className="h-4 w-4 text-gray-400" />
-            ) : (
               <Eye aria-hidden="true" className="h-4 w-4 text-gray-400" />
+            ) : (
+              <EyeOff aria-hidden="true" className="h-4 w-4 text-gray-400" />
             )}
           </button>
         )}

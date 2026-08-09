@@ -7,232 +7,150 @@ import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { useSignUp, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { registerSchema } from "@/app/types/zod";
-import { useMutation } from "@apollo/client";
+// import { useMutation } from "@apollo/client";
+import { registerUser } from "@/services/userServices";
+import LogoWithText from "@/app/components/auth/LogoWithText";
+import FormInput from "@/app/components/auth/FormInput";
+import FormErrors from "@/app/components/auth/FormErrors";
+import { useSignUpHook } from "@/app/features/auth/hooks/useSignUp";
+import useSignUpForm from "@/app/hooks/auth/useSignUpForm";
+import AuthLayout from "@/app/layout/AuthLayout";
 // import { REGISTER_USER } from "@/api/services/userServices.js";
 export default function Registration() {
-  const { isSignedIn } = useUser();
-  const { isLoaded, signUp, setActive } = useSignUp();
-  const [emailAddress, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [pendingVerification, setPendingVerification] = useState(false);
-  const [code, setCode] = useState("");
+  // const { fetchStatus, signUp, setActive } = useSignUp();
+  const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   // const [registerUser, { data, loading, error }] = useMutation(REGISTER_USER);
-  const [formErrors, setFormErrors] = useState({
-    username: "",
-    password: "",
-    emailAddress: "",
-  });
-  const { user } = useUser();
-  const [clerkError, setClerkError] = useState("");
-  const router = useRouter();
-  useEffect(() => {
-    if (isLoaded && isSignedIn) {
-      router.replace("/dashboard");
-    }
-  }, [isLoaded, isSignedIn, router]);
-  if (!isLoaded) {
-    return null;
-  }
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    setFormErrors({ username: "", password: "", emailAddress: "" });
-    if (!isLoaded) {
-      return;
-    }
-    const result = registerSchema.safeParse({
-      username,
-      emailAddress,
-      password,
-    });
-    if (!result.success) {
-      const zodErrors = result.error.flatten().fieldErrors;
-      setFormErrors({
-        emailAddress: zodErrors.emailAddress?.[0] || "",
-        username: zodErrors.username?.[0] || "",
-        password: zodErrors.password?.[0] || "",
-      });
-      console.log("formErrors:", formErrors);
 
-      return;
-    }
-    try {
-      await signUp.create({ emailAddress, username, password });
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-      setPendingVerification(true);
-    } catch (error: any) {
-      console.log(JSON.stringify(error, null, 2));
-    }
-  }
-  // async function onPressVerify(e: React.FormEvent) {
-  //   e.preventDefault();
-  //   if (!isLoaded) {
-  //     return;
+  const {
+    username,
+    setUsername,
+    emailAddress,
+    setEmailAddress,
+    password,
+    setPassword,
+    code,
+    setCode,
+    passwordConfirm,
+    setPasswordConfirm,
+    errors,
+    isSubmitting,
+    handleSubmit,
+    formErrors,
+    verifyOTPCode,
+  } = useSignUpForm();
+  const { signUp, fetchStatus } = useSignUp();
+
+  // const router = useRouter();
+  // useEffect(() => {
+  //   if (isLoaded && isSignedIn) {
+  //     router.replace("/dashboard");
   //   }
-  //   try {
-  //     const completeSignup = await signUp.attemptEmailAddressVerification({
-  //       code,
-  //     });
-  //     if (completeSignup.status !== "complete") {
-  //       console.log(JSON.stringify(completeSignup, null, 2));
-  //     }
-  //     if (completeSignup.status === "complete") {
-  //       const result = await registerUser({
-  //         variables: {
-  //           clerkId: completeSignup.createdUserId,
-  //           email: emailAddress,
-  //           username: username,
-  //         },
-  //       });
-  //       await setActive({ session: completeSignup.createdSessionId });
-  //       console.log(completeSignup);
-  //       console.log("trying to register user");
-  //       if (result.data.registerNewUser.success) {
-  //         router.push("/dashboard");
-  //       } else {
-  //         console.error("error with inserting to db");
-  //         // Handle error
-  //       }
-  //       console.log("end of register");
-  //     }
-  //   } catch (err) {
-  //     if (isClerkAPIResponseError(err)) {
-  //       // ✅ Handle Clerk-specific API errors
-  //       setClerkError(err.errors?.[0]?.message || "Something went wrong");
-  //       console.error("Clerk API Error:", JSON.stringify(err, null, 2));
-  //     } else {
-  //       // ❌ Fallback for unknown errors
-  //       setClerkError("An unexpected error occurred");
-  //       console.error("Unknown error:", err);
-  //     }
-  //   }
+  // }, [fetchStatus, isSignedIn, router]);
+  // if (!fetchStatus) {
+  //   return null;
   // }
-  if (!isLoaded || isSignedIn) {
-    return null;
-  }
-  return (
-    <div className=" bg-no-repeat bg-cover bg-[url(/images/bg.png)]  h-full">
-      <div className="flex flex-col w-[70%] mx-auto h-full ">
-        <nav className="px-2 my-10   flex items-center justify-center ">
-          <Image
-            src={"/images/logo.png"}
-            height={100}
-            width={100}
-            alt=""
-          ></Image>
-          <p className="lg:text-5xl md:text-4xl sm:text-3xl text-2xl">
-            Expenzo
-          </p>
-        </nav>
-        <main className=" p-3 my-20 mx-auto w-1/2">
-          {!pendingVerification ? (
-            <form
-              action=""
-              onSubmit={submit}
-              className="flex flex-col items-center"
-            >
-              <div className="w-3/4 flex flex-col  mx-auto justify-center">
-                <div aria-label="username" className="flex h-22">
-                  <div className="w-full  flex flex-col justify-center">
-                    <label htmlFor="username">username</label>
-                    <input
-                      type="text"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      placeholder=""
-                      className="bg-[rgb(60,60,60)] w-full py-3 rounded-lg px-2"
-                    />
-                    {formErrors.username && (
-                      <p className="text-red-700">{formErrors.username}</p>
-                    )}
-                  </div>
-                </div>
-                <div aria-label="email" className="flex h-22">
-                  <div className="w-full  flex flex-col justify-center">
-                    <label htmlFor="emailAddress">email</label>
-                    <input
-                      type="text"
-                      // {...register("emailAddress")}
-                      value={emailAddress}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder=""
-                      className="bg-[rgb(60,60,60)] w-full py-3 rounded-lg px-2"
-                    />
-                    {formErrors.emailAddress && (
-                      <p className="text-red-700">{formErrors.emailAddress}</p>
-                    )}
-                  </div>
-                </div>
-                <div aria-label="password" className="flex h-22">
-                  <div className="w-full  flex flex-col justify-center  relative">
-                    <label htmlFor="password">password</label>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      onChange={(e) => setPassword(e.target.value)}
-                      value={password}
-                      placeholder=""
-                      required
-                      className="bg-[rgb(60,60,60)] w-full py-3 rounded-lg px-2"
-                    />
-                    {formErrors.password &&
-                      typeof formErrors.password === "string" && (
-                        <p className="text-red-700">{formErrors.password}</p>
-                      )}
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
-                    >
-                      {!showPassword ? (
-                        <Eye className="h-4 w-4 text-gray-500" />
-                      ) : (
-                        <EyeOff className="h-4 w-4 text-gray-500" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div id="clerk-captcha" className="my-4">
-                <button
-                  className="bg-[#00dac6] w-32  py-2 mb-4 mt-10 active:bg-blue-300  text-black rounded-2xl"
-                  type="submit"
-                >
-                  SIGN IN
-                </button>
-              </div>
 
-              <p>
-                Already have account? &nbsp;
-                <Link href="/authentication" className="underline">
-                  Log in
-                </Link>
-              </p>
-            </form>
-          ) : (
-            <form onSubmit={onPressVerify}>
-              <div className="space-y-2 bg-gray-500 flex flex-col justify-center">
-                <label htmlFor="code">Verification code:</label>
-                <input
-                  type="text"
-                  id="code"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  placeholder="Enter verification code"
-                  required
-                  className="bg-gray-600 py-4 px-2"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-blue-600 px-4 py-2 my-5 mx-auto flex justify-center"
+  const needsEmailVerification =
+    signUp.status === "missing_requirements" &&
+    signUp.unverifiedFields.includes("email_address") &&
+    signUp.missingFields.length === 0;
+
+  return (
+    <AuthLayout>
+      {needsEmailVerification ? (
+        <form onSubmit={verifyOTPCode} className="flex flex-col items-center">
+          <FormInput
+            name="code"
+            label="Verification code"
+            value={code}
+            onValueChange={setCode}
+            error={formErrors.code || errors.fields.code?.message}
+            autoComplete="one-time-code"
+            inputMode="numeric"
+            required
+          />
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="mb-4 mt-6 w-32 rounded-2xl bg-primary-button py-2 text-black disabled:opacity-50"
+          >
+            {isSubmitting ? "VERIFYING..." : "VERIFY"}
+          </button>
+        </form>
+      ) : (
+        <form onSubmit={handleSubmit} className="flex flex-col items-center">
+          <h2 className="text-5xl my-5">Register</h2>
+          <div className=" flex flex-col  w-full gap-4 my-6">
+            <FormInput
+              name="username"
+              label="Username"
+              type="text"
+              value={username}
+              onValueChange={setUsername}
+              autoComplete="username"
+              required
+              error={formErrors.username || errors.fields.username?.message}
+            />
+
+            <FormInput
+              name="emailAddress"
+              label="Email"
+              type="email"
+              value={emailAddress}
+              onValueChange={setEmailAddress}
+              autoComplete="email"
+              required
+              error={
+                formErrors.emailAddress || errors.fields.emailAddress?.message
+              }
+            />
+
+            <FormInput
+              name="password"
+              label="Password"
+              type="password"
+              value={password}
+              onValueChange={setPassword}
+              autoComplete="new-password"
+              required
+              error={formErrors.password || errors.fields.password?.message}
+            />
+
+            <FormInput
+              name="confirmPassword"
+              label="Confirm password"
+              type="password"
+              value={passwordConfirm}
+              onValueChange={setPasswordConfirm}
+              autoComplete="new-password"
+              required
+              error={formErrors.passwordConfirm}
+            />
+
+            {/*<div id="clerk-captcha" className="my-4" />*/}
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="mb-4 py-4 px-4 w-full rounded-xl bg-primary-button font-bold text-black disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isSubmitting ? "SIGNING UP..." : "SIGN UP"}
+            </button>
+
+            <p className="flex justify-center">
+              Already have an account? &nbsp;
+              <Link
+                href="/authentication"
+                className="underline text-primary-button"
               >
-                Verify Email
-              </button>
-            </form>
-          )}
-        </main>
-      </div>
-    </div>
+                Log in
+              </Link>
+            </p>
+          </div>
+        </form>
+      )}
+    </AuthLayout>
   );
 }
