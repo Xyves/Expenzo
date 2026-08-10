@@ -12,7 +12,10 @@
     "lint": "npm eslint && npm prettier",
     "check:types": "tsc --noEmit",
     "drizzle:generate": "dotenv -e .env -- drizzle-kit generate",
-    "drizzle:migrate": "dotenv -e .env -- drizzle-kit migrate"
+    "drizzle:migrate": "dotenv -e .env -- drizzle-kit migrate",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@apollo/client": "^4.2.8",
@@ -24,6 +27,7 @@
     "@mui/material": "^9.2.0",
     "@mui/x-charts": "^9.10.1",
     "@reduxjs/toolkit": "^2.12.0",
+    "@testing-library/user-event": "^14.6.3",
     "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
     "drizzle-graphql": "^0.8.5",
@@ -42,14 +46,18 @@
     "@clerk/testing": "^2.2.15",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^7.0.0",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^26",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.0.5",
     "dotenv-cli": "^11.0.0",
     "drizzle-kit": "^0.31.10",
     "drizzle-orm": "^0.45.2",
     "eslint": "^10",
     "eslint-config-next": "16.2.12",
+    "jsdom": "^30.0.1",
     "mysql2": "^3.23.2",
     "prettier": "^3.9.6",
     "style-loader": "^4.0.0",
@@ -57,6 +65,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
     "uuid": "^14.0.1",
+    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.10"
   },
   "allowScripts": {
