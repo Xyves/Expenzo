@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`FormInput > renders the label and input 1`] = `
+<div
+  class="flex min-h-22 w-full flex-col justify-center"
+>
+  <label
+    for="username"
+  >
+    Username
+  </label>
+  <div
+    class="relative"
+  >
+    <input
+      aria-invalid="false"
+      class="w-full rounded-lg bg-[#222C3D]  px-2 py-3 focus:ring-[#C98BBB]  border border-[#3A3444]  "
+      id="username"
+      name="username"
+      type="text"
+      value=""
+    />
+  </div>
+</div>
+`;
