@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="h-[100vh]" id="root">
+      <body className="h-screen w-auto" id="root">
         <ClerkProvider signInUrl="/authentication" signUpUrl="/registration">
           <Providers>{children}</Providers>
         </ClerkProvider>
