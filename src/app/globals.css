@@ -6,6 +6,15 @@
   src: url("/fonts/poppins/Poppins-Regular.ttf") format("truetype");
   font-style: normal;
 }
+@theme {
+  --color-midnight: #121063;
+  --color-primary-dark: #0c1b32;
+  --color-primary-gray: #252525;
+  --color-tahiti: #3ab7bf;
+  --color-bermuda: #78dcca;
+  --color-primary-button: #feb707;
+}
+
 html,
 body {
   height: 100vh;
@@ -34,10 +43,9 @@ body {
   color: var(--foreground);
   font-family: "Poppins", sans-serif;
 
-  height: full;
 }
 .MuiChartsAxis-tickLabel {
-  color: whitrede !important;
+  color: white !important;
   font-size: 12px !important;
 }
 .MuiChartsLabel-root,
