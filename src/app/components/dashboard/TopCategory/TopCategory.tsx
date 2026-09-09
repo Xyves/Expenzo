@@ -2,6 +2,7 @@ import { PieChart } from "@mui/x-charts";
 import React from "react";
 import { Box, Typography, Stack } from "@mui/material";
 import DashboardCard from "@/app/components/dashboard/DashboardCard";
+import DashboardContainer from "@/app/components/dashboard/layout/DashboardContainer";
 
 export default function TopCategory() {
   const chartData = [
@@ -13,7 +14,7 @@ export default function TopCategory() {
     { id: 5, value: 2162, label: "Bill & Subscription", color: "#00BCD4" },
   ];
   return (
-    <div>
+    <DashboardContainer>
       <DashboardCard title="Top Category">
         <Box
           component="section"
@@ -81,6 +82,6 @@ export default function TopCategory() {
           </Stack>
         </Box>
       </DashboardCard>
-    </div>
+    </DashboardContainer>
   );
 }

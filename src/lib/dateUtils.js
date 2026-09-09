@@ -20,7 +20,6 @@ export const getLast7Days = () => {
   return days.reverse();
 };
 
-console.log(getLast7Days());
 export const formatDate = (date) => {
   if (!(date instanceof Date) || isNaN(date)) return "";
   const day = String(date.getDate()).padStart(2, "0");

@@ -23,7 +23,7 @@ export const DateProvider = ({ children }: ChildrenProps) => {
   const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState<Date | null | undefined>(null);
   const [endDate, setEndDate] = useState<Date | null | undefined>(null);
-  console.log("current data", date);
+
   return (
     <DateContext.Provider
       value={{ date, setDate, startDate, setStartDate, endDate, setEndDate }}

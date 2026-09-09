@@ -5,7 +5,7 @@ import React from "react";
 
 export default function IncomeExpenseSettings() {
   const isIncomeExpenseSettingsOpen = useAppSelector(
-    selectIsModalOpen("IncomeExpenseModal")
+    selectIsModalOpen("IncomeExpenseModal"),
   );
   const dispatch = useAppDispatch();
   if (!isIncomeExpenseSettingsOpen) return null;

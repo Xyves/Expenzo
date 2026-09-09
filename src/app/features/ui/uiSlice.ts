@@ -21,9 +21,7 @@ type UiModalsState = {
   selectCategoryModal: BaseModalState;
 };
 export type ModalName =
-  | "transactionModal"
-  | "IncomeExpenseModal"
-  | "selectCategoryModal";
+  "transactionModal" | "IncomeExpenseModal" | "selectCategoryModal";
 interface UiState {
   modals: UiModalsState;
 }
@@ -44,6 +42,9 @@ const initialState: UiState = {
     },
   },
 };
+function isTransactionModal(data: any): data is Partial<TransactionModalState> {
+  return "transactionType" in data;
+}
 const uiSlice = createSlice({
   name: "ui",
   initialState,
@@ -53,15 +54,16 @@ const uiSlice = createSlice({
       action: PayloadAction<{
         modalName: ModalName;
         data?: Partial<(typeof state.modals)[ModalName]>;
-      }>
+      }>,
     ) => {
       const { modalName, data } = action.payload;
       state.modals[modalName].isModalVisible = true;
       if (data) {
-        state.modals[modalName] = {
-          ...state.modals[modalName],
-          ...data,
-        };
+        if (isTransactionModal(data)) {
+          Object.assign(state.modals[modalName], data);
+        } else {
+          Object.assign(state.modals[modalName], data);
+        }
       }
     },
 
@@ -75,17 +77,16 @@ const uiSlice = createSlice({
       action: PayloadAction<{
         modalName: ModalName;
         data?: Partial<TransactionModalState | IncomeExpenseModalState>;
-      }>
+      }>,
     ) => {
       const { modalName, data } = action.payload;
       const modal = state.modals[modalName];
       modal.isModalVisible = !modal.isModalVisible;
 
       if (data) {
-        state.modals[modalName] = {
-          ...modal,
-          ...data,
-        };
+        Object.entries(data).forEach(([key, value]) => {
+          (modal as any)[key] = value;
+        });
       }
     },
   },

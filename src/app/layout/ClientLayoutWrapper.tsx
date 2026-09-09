@@ -8,7 +8,7 @@ export default function ClientLayoutWrapper({ children }: ChildrenProps) {
   const isModalOpen = useAppSelector(selectIsModalOpen("selectCategoryModal"));
 
   return (
-    <div className={`transition-all h-full ${isModalOpen ? "blur-md" : ""}`}>
+    <div className={`transition-all h-screen ${isModalOpen ? "blur-md" : ""}`}>
       {children}
     </div>
   );

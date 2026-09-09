@@ -15,7 +15,7 @@ export default function TransactionFilter() {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
-    console.log("start:", start, "end:", end);
+
     if (start) {
       setDate(start);
     }
