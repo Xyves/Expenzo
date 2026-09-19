@@ -10,6 +10,7 @@ export default function LogoWithText() {
         height={100}
         width={100}
         alt="Expenzo logo"
+        loading="eager"
       />
 
       <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">Expenzo</p>
