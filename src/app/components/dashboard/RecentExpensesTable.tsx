@@ -56,11 +56,11 @@ export default function RecentExpensesTable() {
     <DashboardContainer>
       <div className="w-full flex-1   max-h-96 overflow-y-scroll scrollbar-thin scrollbar-thumb-indigo-400">
         <div className="flex items-center text-2xl   justify-between h-full ">
-          {/*<RecentExp*/}
-          {/*<Link href="/transactions" className="mr-3 ">*/}
-          {/*  <p className="ml-auto text-[#5c85e7] hover:text-blue-700">See more</p>*/}
-          {/*</Link>*/}
-          <DashboardCard title="Recent expenses">
+          <DashboardCard
+            title="Recent expenses"
+            subTitle="See more"
+            redirectPath="/transactions"
+          >
             <div className="flex h-full min-h-0 flex-col px-6">
               <RecentExpensesColumns columns={columns} />
 
