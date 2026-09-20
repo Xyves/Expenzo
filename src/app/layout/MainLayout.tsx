@@ -1,6 +1,6 @@
 import React from "react";
-import RootLayout from "../layout";
-import Sidebar from "../components/shared/Sidebar";
+import RootLayout from "@/app/layout";
+import Sidebar from "@/app/components/shared/Sidebar/Sidebar";
 import { ChildrenProps } from "../types";
 import TransactionForm from "../components/transaction/dashboard/TransactionForm";
 import ModalPortalWrapper from "./ModalPortalWrapper";
@@ -15,7 +15,7 @@ export default function MainLayout({ children }: ChildrenProps) {
           <div className="w-72 flex ">
             <Sidebar />
           </div>
-          <div className=" grow">{children}</div>
+          <div className="flex-grow h-full bg-[#202f4c]">{children}</div>
         </div>
       </ClientLayoutWrapper>
       <ModalPortalWrapper>
