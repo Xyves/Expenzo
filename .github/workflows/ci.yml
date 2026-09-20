@@ -26,10 +26,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Lint & Format
-        run: |
-          npm run lint
-          npm run prettier
+      - name: Lint with ESLint
+        run: npm run eslint
+
+      - name: Format with Prettier
+        run: npm run prettier
 
       - name: Type Check
         run: npm run check:types
