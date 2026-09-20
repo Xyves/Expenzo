@@ -9,7 +9,7 @@
     "compile": "tsc",
     "eslint": "next lint --fix --dir src",
     "prettier": "prettier --write .",
-    "lint": "npm eslint && npm prettier",
+    "lint": "npm run eslint && npm run prettier",
     "check:types": "tsc --noEmit",
     "drizzle:generate": "dotenv -e .env -- drizzle-kit generate",
     "drizzle:migrate": "dotenv -e .env -- drizzle-kit migrate",
