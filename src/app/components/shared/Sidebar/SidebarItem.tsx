@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function SidebarItem({ icon: Icon, label, href, collapsed }) {
+export default function SidebarItem({ icon: Icon, label, href }) {
   const pathname = usePathname();
 
   return (

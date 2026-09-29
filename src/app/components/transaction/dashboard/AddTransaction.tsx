@@ -1,11 +1,9 @@
-import { useAppDispatch, useAppSelector } from "@/app/hooks/reduxHooks";
-import { selectModalState, toggleModal } from "@/app/features/ui/uiSlice";
+import { useAppDispatch } from "@/app/hooks/reduxHooks";
+import { toggleModal } from "@/app/features/ui/uiSlice";
 
 export default function AddTransactionButtons() {
-  const transactionModal = useAppSelector(selectModalState("transactionModal"));
-
-  // const isOpen = useAppSelector(toggleModal);
   const dispatch = useAppDispatch();
+
   return (
     <div className="flex flex-col fixed bottom-10 right-14 gap-3">
       <button

@@ -2,10 +2,12 @@ import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import { PieChart } from "@mui/x-charts";
 
-export default function CategoryChart(chartData: any[]) {
+export default function CategoryChart(
+  chartData: { id?: string; value: string; label: string }[],
+) {
   return (
     <>
-      <sPieChart
+      <PieChart
         height={260}
         width={300}
         series={[

@@ -1,27 +1,11 @@
 "use client";
-import Image from "next/image";
-import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
-import { useSignUp, useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { registerSchema } from "@/app/types/zod";
-// import { useMutation } from "@apollo/client";
-import { registerUser } from "@/services/userServices";
-import LogoWithText from "@/app/components/auth/LogoWithText";
+import React from "react";
+import { useSignUp } from "@clerk/nextjs";
 import FormInput from "@/app/components/auth/FormInput";
-import FormErrors from "@/app/components/auth/FormErrors";
-import { useSignUpHook } from "@/app/features/auth/hooks/useSignUp";
 import useSignUpForm from "@/app/hooks/auth/useSignUpForm";
 import AuthLayout from "@/app/layout/AuthLayout";
-// import { REGISTER_USER } from "@/api/services/userServices.js";
 export default function Registration() {
-  // const { fetchStatus, signUp, setActive } = useSignUp();
-  const [email, setEmail] = useState("");
-  const [showPassword, setShowPassword] = useState(true);
-  // const [registerUser, { data, loading, error }] = useMutation(REGISTER_USER);
-
   const {
     username,
     setUsername,
@@ -39,7 +23,7 @@ export default function Registration() {
     formErrors,
     verifyOTPCode,
   } = useSignUpForm();
-  const { signUp, fetchStatus } = useSignUp();
+  const { signUp } = useSignUp();
 
   // const router = useRouter();
   // useEffect(() => {

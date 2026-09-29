@@ -1,5 +1,3 @@
-import DashboardBalanceCards from "@/app/components/dashboard/DashboardBalanceCards";
-
 export interface BudgetItemProps {
   category_name: string;
   startDate: Date;

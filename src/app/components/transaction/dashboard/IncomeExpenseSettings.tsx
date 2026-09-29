@@ -1,13 +1,12 @@
 "use client";
 import { selectIsModalOpen } from "@/app/features/ui/uiSelectors";
-import { useAppDispatch, useAppSelector } from "@/app/hooks/reduxHooks";
+import { useAppSelector } from "@/app/hooks/reduxHooks";
 import React from "react";
 
 export default function IncomeExpenseSettings() {
   const isIncomeExpenseSettingsOpen = useAppSelector(
     selectIsModalOpen("IncomeExpenseModal"),
   );
-  const dispatch = useAppDispatch();
   if (!isIncomeExpenseSettingsOpen) return null;
 
   return (

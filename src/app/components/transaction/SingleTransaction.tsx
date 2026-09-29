@@ -20,7 +20,7 @@ export default function SingleTransaction({
   const ref = useRef<HTMLDivElement | null>(null);
   const [value, setValue] = useState("");
   useClickOutside(ref as React.RefObject<HTMLElement>, () =>
-    setShowOptions(false)
+    setShowOptions(false),
   );
   const options = [
     "Duplicate Transaction",
@@ -39,7 +39,7 @@ export default function SingleTransaction({
             onChange={() => handleCheckOne(id)}
             checked={checked}
           />
-          <div className="h-2/4 bg-gray-50 w-10 rounded-full"></div>
+          {/* <div className="h-2/4 bg-gray-50 w-10 rounded-full"></div> */}
           <span>Fuel</span>
         </div>
         <div className="flex items-center ">

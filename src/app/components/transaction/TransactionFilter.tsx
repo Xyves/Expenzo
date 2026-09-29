@@ -1,8 +1,7 @@
 "use client";
 import { useDate } from "@/app/context/DateContext";
 import { useClickOutside } from "@/app/hooks/UseClickOutside";
-import { addDays } from "date-fns";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -11,7 +10,8 @@ export default function TransactionFilter() {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const pickerRef = useRef<HTMLDivElement | null>(null);
-  const onChange = (dates: any[]) => {
+  const onChange = (dates: string[]) => {
+    console.log(dates);
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);

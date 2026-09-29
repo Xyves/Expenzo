@@ -1,5 +1,4 @@
 import React from "react";
-import RecentExpensesTable from "@/app/components/dashboard/RecentExpensesTable";
 
 function DashboardContainer({ children }) {
   return (

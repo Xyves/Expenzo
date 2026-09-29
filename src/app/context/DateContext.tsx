@@ -5,9 +5,9 @@ type DataContextType = {
   date: Date;
   startDate: Date | null | undefined;
   endDate: Date | null | undefined;
-  setStartDate: (startDate: Date | null) => void;
-  setDate: (date: Date) => void;
-  setEndDate: (endDate: Date | null) => void;
+  setStartDate: (startDate: string) => void;
+  setDate: (date: string) => void;
+  setEndDate: (endDate: string) => void;
 };
 const defaultValue: DataContextType = {
   date: new Date(),
