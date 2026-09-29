@@ -8,7 +8,7 @@ export default function MonthContainer() {
   const { date, setDate, startDate, setStartDate, endDate, setEndDate } =
     useDate();
   const now = new Date();
-  console.log(now);
+
   const headerText =
     startDate && endDate
       ? `${formatDate(startDate)} - ${formatDate(endDate)}`
