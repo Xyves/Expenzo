@@ -6,7 +6,7 @@ import {
   LayoutDashboard,
   Settings,
 } from "lucide-react";
-import { SidebarProps } from "@/app/components/shared/types/sidebar";
+import { SidebarProps } from "@/app/types";
 import AppLogo from "@/app/components/shared/AppLogo";
 import SidebarChartsItems from "@/app/components/shared/Sidebar/SidebarChartsItems";
 import SidebarLogoutItem from "@/app/components/shared/Sidebar/SidebarLogoutItem";

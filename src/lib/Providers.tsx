@@ -6,6 +6,7 @@ import { store } from "@/app/store";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 
 import { ApolloProvider } from "@apollo/client/react";
+import {ReactNode} from "react";
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -14,7 +15,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export default function Providers({ children }) {
+export default function Providers({ children }: { children: ReactNode }) {
   return (
     <Provider store={store}>
       <ApolloProvider client={client}>{children}</ApolloProvider>

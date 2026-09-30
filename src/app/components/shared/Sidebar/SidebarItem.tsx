@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { SidebarItemInterface } from "@/app/types";
 
-export default function SidebarItem({ icon: Icon, label, href }) {
+export default function SidebarItem({
+  icon: Icon,
+  label,
+  href,
+}: SidebarItemInterface) {
   const pathname = usePathname();
 
   return (

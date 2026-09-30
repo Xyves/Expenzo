@@ -15,7 +15,11 @@ export default function TopCategory() {
   ];
   return (
     <DashboardContainer>
-      <DashboardCard title="Top Category">
+      <DashboardCard
+        title="Top Category"
+        subTitle="See more"
+        redirectPath="/chart/categories"
+      >
         <Box
           component="section"
           sx={{
@@ -69,7 +73,7 @@ export default function TopCategory() {
                   }}
                 />
 
-                <Typography variant="body2" classes="font-bold" variant="body1">
+                <Typography variant="body2" classes="font-bold">
                   {item.label}
                 </Typography>
                 <div className="ml-auto">
