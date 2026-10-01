@@ -15,7 +15,11 @@ export default function TopCategory() {
   ];
   return (
     <DashboardContainer>
-      <DashboardCard title="Top Category">
+      <DashboardCard
+        title="Top Category"
+        subTitle="See more"
+        redirectPath="/chart/categories"
+      >
         <Box
           component="section"
           sx={{
@@ -55,10 +59,11 @@ export default function TopCategory() {
             {chartData.map((item) => (
               <Box
                 key={item.id}
-                display="flex"
-                alignItems="center"
-                gap={1}
                 className="flex gap-x-3 h-8"
+                sx={{
+                  alignItems: "center",
+                  gap: 1,
+                }}
               >
                 <Box
                   sx={{
@@ -69,7 +74,7 @@ export default function TopCategory() {
                   }}
                 />
 
-                <Typography variant="body2" classes="font-bold" variant="body1">
+                <Typography variant="body2" classes="font-bold">
                   {item.label}
                 </Typography>
                 <div className="ml-auto">

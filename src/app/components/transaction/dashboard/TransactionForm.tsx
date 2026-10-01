@@ -7,10 +7,7 @@ import {
 } from "@/app/features/ui/uiSelectors";
 import React, { useEffect, useRef } from "react";
 import { Calendar, Pen } from "lucide-react";
-import { format } from "date-fns";
 export default function TransactionForm() {
-  const todayISO = new Date().toISOString().split("T")[0];
-  const todayFormatted = format(new Date(), "dd-MM-yy");
   const isTransactionModalOpen = useAppSelector(
     selectIsModalOpen("transactionModal"),
   );

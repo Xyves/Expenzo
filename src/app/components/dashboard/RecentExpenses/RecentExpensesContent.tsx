@@ -1,7 +1,17 @@
 "use client";
 import React from "react";
+import {
+  RecentExpensesColumnsInterface,
+  RecentExpensesContentInterface,
+} from "@/app/types";
 
-export default function RecentExpensesContent({ items, columns }) {
+export default function RecentExpensesContent({
+  items,
+  columns,
+}: {
+  items: RecentExpensesContentInterface[];
+  columns: RecentExpensesColumnsInterface[];
+}) {
   return (
     <>
       {items.map((item, index) => (

@@ -41,12 +41,9 @@ export default function MainBudget() {
             />
           );
         })}
-        <BudgetItem />
       </div>
       <div id="monthly" className=" bg-[#0c1b32]">
         <p className="text-center py-4 uppercase ">Montly budget</p>
-        <BudgetItem />
-        <BudgetItem />
       </div>
     </div>
   );

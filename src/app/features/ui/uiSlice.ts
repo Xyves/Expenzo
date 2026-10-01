@@ -1,6 +1,5 @@
 import { RootState } from "@/app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { create } from "domain";
 export type TabType = "dashboard" | "transactions" | "categories";
 export type AddTransactionType = "income" | "expense" | "idle";
 interface BaseModalState {
@@ -12,8 +11,7 @@ interface TransactionModalState extends BaseModalState {
   transactionType: AddTransactionType;
 }
 
-interface IncomeExpenseModalState extends BaseModalState {}
-interface categoryModal extends BaseModalState {}
+type IncomeExpenseModalState = BaseModalState;
 
 type UiModalsState = {
   transactionModal: TransactionModalState;
@@ -42,9 +40,12 @@ const initialState: UiState = {
     },
   },
 };
-function isTransactionModal(data: any): data is Partial<TransactionModalState> {
-  return "transactionType" in data;
+function isTransactionModal(
+  data: unknown,
+): data is Partial<TransactionModalState> {
+  return typeof data === "object" && data !== null && "transactionType" in data;
 }
+
 const uiSlice = createSlice({
   name: "ui",
   initialState,
@@ -84,9 +85,7 @@ const uiSlice = createSlice({
       modal.isModalVisible = !modal.isModalVisible;
 
       if (data) {
-        Object.entries(data).forEach(([key, value]) => {
-          (modal as any)[key] = value;
-        });
+        Object.assign(modal, data);
       }
     },
   },

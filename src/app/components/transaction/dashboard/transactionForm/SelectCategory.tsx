@@ -1,14 +1,13 @@
 "use client";
 import { selectIsModalOpen } from "@/app/features/ui/uiSelectors";
-import { useAppDispatch, useAppSelector } from "@/app/hooks/reduxHooks";
+import { useAppSelector } from "@/app/hooks/reduxHooks";
 import { Search } from "lucide-react";
 import React from "react";
 
 export default function SelectCategory() {
   const isSelectCategoryOpen = useAppSelector(
-    selectIsModalOpen("selectCategoryModal")
+    selectIsModalOpen("selectCategoryModal"),
   );
-  const dispatch = useAppDispatch();
   // const type = useAppSelector(selectTransactionType);
 
   if (!isSelectCategoryOpen) return null;

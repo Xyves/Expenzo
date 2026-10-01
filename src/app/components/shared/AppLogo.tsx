@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function AppLogo({ classProps }: { classProps: string }) {
+export default function AppLogo({ classProps }: { classProps?: string }) {
   return (
     <Image
       height={100}
