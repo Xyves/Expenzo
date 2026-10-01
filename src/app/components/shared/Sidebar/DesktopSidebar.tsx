@@ -6,7 +6,7 @@ import {
   LayoutDashboard,
   Settings,
 } from "lucide-react";
-import { SidebarProps } from "@/app/types";
+import { SidebarItemInterface, SidebarProps } from "@/app/types";
 import AppLogo from "@/app/components/shared/AppLogo";
 import SidebarChartsItems from "@/app/components/shared/Sidebar/SidebarChartsItems";
 import SidebarLogoutItem from "@/app/components/shared/Sidebar/SidebarLogoutItem";
@@ -16,7 +16,7 @@ export default function DesktopSidebar({
   handleSignOut,
   username,
 }: SidebarProps) {
-  const sidebarItems = [
+  const sidebarItems: SidebarItemInterface[] = [
     {
       icon: LayoutDashboard,
       label: "Dashboard",
@@ -64,7 +64,7 @@ export default function DesktopSidebar({
 
       <ul className="flex  flex-col h-full">
         {sidebarItems.map((item, index) => {
-          if (item.type === "charts") {
+          if (item?.type === "charts") {
             return (
               <SidebarChartsItems
                 key={index}

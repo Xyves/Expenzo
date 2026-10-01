@@ -10,8 +10,10 @@ export default function TransactionFilter() {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const pickerRef = useRef<HTMLDivElement | null>(null);
-  const onChange = (dates: string[]) => {
-    console.log(dates);
+
+  const onChange = (dates: [Date | null, Date | null]) => {
+    if (!dates) return;
+
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
@@ -23,7 +25,7 @@ export default function TransactionFilter() {
       setIsModalVisible(false);
     }
   };
-  const changeModalVisiblity = () => {
+  const changeModalVisibility = () => {
     setIsModalVisible(!isModalVisible);
   };
 
@@ -46,7 +48,7 @@ export default function TransactionFilter() {
             <label htmlFor="date">From / Till</label>
             <button
               className="bg-gray-600 py-4 px-1 text-sm"
-              onClick={changeModalVisiblity}
+              onClick={changeModalVisibility}
               type="button"
             >
               {startDate?.toLocaleDateString("en-GB")}{" "}

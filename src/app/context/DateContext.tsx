@@ -1,14 +1,21 @@
 "use client";
-import React, { createContext, useState, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { ChildrenProps } from "../types";
-type DataContextType = {
+
+interface DataContextType {
   date: Date;
   startDate: Date | null | undefined;
   endDate: Date | null | undefined;
-  setStartDate: (startDate: string) => void;
-  setDate: (date: string) => void;
-  setEndDate: (endDate: string) => void;
-};
+  setStartDate: Dispatch<SetStateAction<Date | null | undefined>>;
+  setDate: Dispatch<SetStateAction<Date>>;
+  setEndDate: Dispatch<SetStateAction<Date | null | undefined>>;
+}
 const defaultValue: DataContextType = {
   date: new Date(),
   startDate: undefined,
@@ -19,8 +26,9 @@ const defaultValue: DataContextType = {
 };
 
 const DateContext = createContext<DataContextType>(defaultValue);
+
 export const DateProvider = ({ children }: ChildrenProps) => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date>(new Date());
   const [startDate, setStartDate] = useState<Date | null | undefined>(null);
   const [endDate, setEndDate] = useState<Date | null | undefined>(null);
 

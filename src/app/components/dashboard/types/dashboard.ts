@@ -1,7 +1,7 @@
 export interface BudgetItemProps {
   category_name: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | string;
+  endDate: Date | string;
   amount: number;
   maxAmount: number;
 }

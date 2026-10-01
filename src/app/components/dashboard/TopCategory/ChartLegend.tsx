@@ -3,7 +3,12 @@ import React from "react";
 import { PieChart } from "@mui/x-charts";
 
 export default function CategoryChart(
-  chartData: { id?: string; value: string; label: string }[],
+  chartData: {
+    id?: string | undefined;
+    value: number;
+    label: string;
+    color: string;
+  }[],
 ) {
   return (
     <>
@@ -31,9 +36,13 @@ export default function CategoryChart(
           },
         }}
       />
-      <Stack spacing={1} justifyContent="center">
+      <Stack spacing={1} component="div" className="justify-center">
         {chartData.map((item) => (
-          <Box key={item.id} display="flex" alignItems="center" gap={1}>
+          <Box
+            key={item.id}
+            className="flex items-center gap-1"
+            component="div"
+          >
             <Box
               sx={{
                 width: 10,
@@ -42,11 +51,16 @@ export default function CategoryChart(
                 backgroundColor: item.color,
               }}
             />
-            <Typography variant="body2" color="#8d8d8d" width={150}>
+            <Typography
+              variant="body2"
+              color="#8d8d8d"
+              sx={{ width: 150 }}
+              component="span"
+            >
               {item.label}
             </Typography>
             <Typography variant="body2" color="white">
-              ${item.value.toFixed(2)}
+              ${Number(item.value).toFixed(2)}
             </Typography>
           </Box>
         ))}

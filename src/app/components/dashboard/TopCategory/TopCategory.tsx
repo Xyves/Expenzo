@@ -59,10 +59,11 @@ export default function TopCategory() {
             {chartData.map((item) => (
               <Box
                 key={item.id}
-                display="flex"
-                alignItems="center"
-                gap={1}
                 className="flex gap-x-3 h-8"
+                sx={{
+                  alignItems: "center",
+                  gap: 1,
+                }}
               >
                 <Box
                   sx={{

@@ -3,6 +3,7 @@ import RecentExpensesContent from "@/app/components/dashboard/RecentExpenses/Rec
 import DashboardCard from "@/app/components/dashboard/DashboardCard";
 import RecentExpensesColumns from "@/app/components/dashboard/RecentExpenses/RecentExpensesColumns";
 import DashboardContainer from "@/app/components/dashboard/layout/DashboardContainer";
+import { RecentExpensesColumnsInterface } from "@/app/types";
 
 export default function RecentExpensesTable() {
   const data = [
@@ -47,7 +48,7 @@ export default function RecentExpensesTable() {
       date: "31-01-2016",
     },
   ];
-  const columns = [
+  const columns: RecentExpensesColumnsInterface[] = [
     { key: "date", label: "Date" },
     { key: "amount", label: "Amount", className: "text-white" },
     { key: "category", label: "Category" },

@@ -23,20 +23,9 @@ export default function SidebarChartsItems(props: {
           icon={ChartPie}
           label="Categories"
           href="chart/categories"
-          collapsed="false"
         />
-        <SidebarItem
-          icon={ChartPie}
-          label="Time"
-          href="chart/time"
-          collapsed="false"
-        />
-        <SidebarItem
-          icon={ChartPie}
-          label="Calendar"
-          href="chart/calendar"
-          collapsed="false"
-        />
+        <SidebarItem icon={ChartPie} label="Time" href="chart/time" />
+        <SidebarItem icon={ChartPie} label="Calendar" href="chart/calendar" />
       </ul>
     </li>
   );
