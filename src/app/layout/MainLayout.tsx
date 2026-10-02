@@ -12,7 +12,7 @@ export default function MainLayout({ children }: ChildrenProps) {
     <RootLayout>
       <ClientLayoutWrapper>
         <div className="flex h-screen">
-          <div className="w-72 flex ">
+          <div className="w-16 md:w-72 flex ">
             <Sidebar />
           </div>
           <div className="flex-grow h-full bg-[#202f4c]">{children}</div>
