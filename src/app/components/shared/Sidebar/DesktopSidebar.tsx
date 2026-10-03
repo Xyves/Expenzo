@@ -1,57 +1,14 @@
 import SidebarItem from "@/app/components/shared/Sidebar/SidebarItem";
-import {
-  CalendarDays,
-  ChartPie,
-  CreditCard,
-  LayoutDashboard,
-  Settings,
-} from "lucide-react";
-import { SidebarItemInterface, SidebarProps } from "@/app/types";
+import { SidebarProps } from "@/app/types";
 import AppLogo from "@/app/components/shared/AppLogo";
-import SidebarChartsItems from "@/app/components/shared/Sidebar/SidebarChartsItems";
 import SidebarLogoutItem from "@/app/components/shared/Sidebar/SidebarLogoutItem";
 export default function DesktopSidebar({
+  sidebarItems,
   isDropDownHidden,
   setIsDropDownHidden,
   handleSignOut,
   username,
 }: SidebarProps) {
-  const sidebarItems: SidebarItemInterface[] = [
-    {
-      icon: LayoutDashboard,
-      label: "Dashboard",
-      href: "dashboard",
-    },
-    {
-      icon: CreditCard,
-      label: "Transactions",
-      href: "transactions",
-    },
-    {
-      icon: LayoutDashboard,
-      label: "Reports",
-      href: "reports",
-    },
-    {
-      icon: ChartPie,
-      label: "Budgets",
-      href: "Budgets",
-    },
-    {
-      type: "charts",
-    },
-    {
-      icon: CalendarDays,
-      label: "Calendar",
-      href: "calendar",
-    },
-    {
-      icon: Settings,
-      label: "Settings",
-      href: "settings",
-    },
-  ];
-
   return (
     <div
       aria-label="Dashboard"
@@ -63,29 +20,29 @@ export default function DesktopSidebar({
       </div>
 
       <ul className="flex  flex-col h-full">
-        {sidebarItems.map((item, index) => {
-          if (item?.type === "charts") {
-            return (
-              <SidebarChartsItems
-                key={index}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsDropDownHidden(!isDropDownHidden);
-                }}
+        {sidebarItems.map((item, index) => (
+          <SidebarItem
+            key={index}
+            icon={item.icon}
+            label={item.label}
+            href={item.href}
+            isDropdown={item.isDropdown}
+            dropDownHidden={isDropDownHidden}
+            setIsDropDownHidden={setIsDropDownHidden}
+          >
+            {item.children?.map((child, childIndex) => (
+              <SidebarItem
+                key={childIndex}
+                icon={child.icon}
+                label={child.label}
+                href={child.href}
+                isDropdown={child.isDropdown}
                 dropDownHidden={isDropDownHidden}
+                setIsDropDownHidden={setIsDropDownHidden}
               />
-            );
-          }
-
-          return (
-            <SidebarItem
-              key={index}
-              icon={item.icon}
-              label={item.label}
-              href={item.href}
-            />
-          );
-        })}
+            ))}
+          </SidebarItem>
+        ))}
         <SidebarLogoutItem onClick={handleSignOut} />
       </ul>
     </div>
