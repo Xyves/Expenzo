@@ -38,6 +38,7 @@ export interface SidebarProps {
   handleSignOut: () => void;
   username: string | null | undefined;
 }
+
 export interface SidebarItemProps {
   icon?:
     | React.ComponentType<React.HTMLAttributes<HTMLElement>>
