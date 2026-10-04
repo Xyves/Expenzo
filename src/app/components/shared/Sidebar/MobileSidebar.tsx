@@ -2,9 +2,9 @@ import { SidebarProps } from "@/app/types";
 
 import SidebarItem from "@/app/components/shared/Sidebar/SidebarItem";
 import SidebarLogoutItem from "@/app/components/shared/Sidebar/SidebarLogoutItem";
+import { SIDEBAR_ITEMS } from "@/utils/constants";
 
 export default function MobileSidebar({
-  sidebarItems,
   isDropDownHidden,
   setIsDropDownHidden,
   handleSignOut,
@@ -12,7 +12,7 @@ export default function MobileSidebar({
   return (
     <>
       <ul className="flex  flex-col h-full items-center">
-        {sidebarItems.map((item, index) => (
+        {SIDEBAR_ITEMS.map((item, index) => (
           <SidebarItem
             key={index}
             icon={item.icon}

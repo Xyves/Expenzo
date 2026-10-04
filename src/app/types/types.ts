@@ -32,7 +32,6 @@ export interface SidebarItemInterface extends SidebarItem {
 }
 
 export interface SidebarProps {
-  sidebarItems: SidebarItemInterface[];
   isDropDownHidden: boolean;
   setIsDropDownHidden: (isHidden: boolean) => void;
   handleSignOut: () => void;

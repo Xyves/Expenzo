@@ -2,8 +2,8 @@ import SidebarItem from "@/app/components/shared/Sidebar/SidebarItem";
 import { SidebarProps } from "@/app/types";
 import AppLogo from "@/app/components/shared/AppLogo";
 import SidebarLogoutItem from "@/app/components/shared/Sidebar/SidebarLogoutItem";
+import { SIDEBAR_ITEMS } from "@/utils/constants";
 export default function DesktopSidebar({
-  sidebarItems,
   isDropDownHidden,
   setIsDropDownHidden,
   handleSignOut,
@@ -20,7 +20,7 @@ export default function DesktopSidebar({
       </div>
 
       <ul className="flex  flex-col h-full">
-        {sidebarItems.map((item, index) => (
+        {SIDEBAR_ITEMS.map((item, index) => (
           <SidebarItem
             key={index}
             icon={item.icon}

@@ -42,7 +42,8 @@
     "src/graphql/resolvers.js",
     "src/graphql/resolvers/dashboard/queries.js",
     "src/graphql/resolvers/transactions/queries.js",
-    ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts",
+    "src/utils"
   ],
   "exclude": ["node_modules"]
 }
