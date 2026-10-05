@@ -12,14 +12,14 @@ export default function DesktopSidebar({
   return (
     <div
       aria-label="Dashboard"
-      className="flex flex-col items-center mb-10 pt-7 h-screen"
+      className="flex flex-col items-center  mb-10 pt-7 h-full justify-center w-full"
     >
       <div className="flex flex-col items-center mx-auto mb-10">
         <AppLogo />
         <p className="text-2xl text-center">{username}</p>
       </div>
 
-      <ul className="flex  flex-col h-full">
+      <ul className="flex  flex-col h-full  w-full px-10">
         {SIDEBAR_ITEMS.map((item, index) => (
           <SidebarItem
             key={index}
@@ -43,7 +43,9 @@ export default function DesktopSidebar({
             ))}
           </SidebarItem>
         ))}
-        <SidebarLogoutItem onClick={handleSignOut} />
+        <div className="mt-auto shrink-0">
+          <SidebarLogoutItem onClick={handleSignOut} />
+        </div>
       </ul>
     </div>
   );

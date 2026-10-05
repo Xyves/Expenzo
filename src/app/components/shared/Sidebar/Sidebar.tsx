@@ -15,23 +15,30 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="bg-primary-dark  md:flex flex flex-col w-16 md:w-full w-16">
-      <div className="hidden md:flex flex-col w-full min-h-screen">
-        <DesktopSidebar
-          isDropDownHidden={isDropDownHidden}
-          setIsDropDownHidden={setIsDropDownHidden}
-          handleSignOut={handleSignOut}
-          username={user?.username}
-        />
+    <div className="flex h-screen overflow-hidden">
+      <div className="w-16 md:w-72 h-full flex flex-col">
+        <aside className="bg-primary-dark w-full h-full flex flex-col">
+          <div className="flex-1 min-h-0">
+            <div className="hidden md:flex h-full">
+              <DesktopSidebar
+                isDropDownHidden={isDropDownHidden}
+                setIsDropDownHidden={setIsDropDownHidden}
+                handleSignOut={handleSignOut}
+                username={user?.username}
+              />
+            </div>
+
+            <div className="md:hidden h-full">
+              <MobileSidebar
+                isDropDownHidden={isDropDownHidden}
+                setIsDropDownHidden={setIsDropDownHidden}
+                handleSignOut={handleSignOut}
+                username={user?.username}
+              />
+            </div>
+          </div>
+        </aside>
       </div>
-      <div className="md:hidden flex flex-col min-h-screen">
-        <MobileSidebar
-          isDropDownHidden={isDropDownHidden}
-          setIsDropDownHidden={setIsDropDownHidden}
-          handleSignOut={handleSignOut}
-          username={user?.username}
-        />
-      </div>
-    </aside>
+    </div>
   );
 }

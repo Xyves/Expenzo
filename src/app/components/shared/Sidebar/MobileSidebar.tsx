@@ -10,12 +10,13 @@ export default function MobileSidebar({
   handleSignOut,
 }: SidebarProps) {
   return (
-    <>
-      <ul className="flex  flex-col h-full items-center">
+    <div className="h-full flex flex-col">
+      <ul className="flex-1 min-h-0 overflow-y-auto flex flex-col items-center">
         {SIDEBAR_ITEMS.map((item, index) => (
           <SidebarItem
             key={index}
             icon={item.icon}
+            label={item.label}
             href={item.href}
             isDropdown={item.isDropdown}
             dropDownHidden={isDropDownHidden}
@@ -26,6 +27,7 @@ export default function MobileSidebar({
                 key={childIndex}
                 icon={child.icon}
                 href={child.href}
+                label={item.label}
                 isDropdown={child.isDropdown}
                 dropDownHidden={isDropDownHidden}
                 setIsDropDownHidden={setIsDropDownHidden}
@@ -33,9 +35,10 @@ export default function MobileSidebar({
             ))}
           </SidebarItem>
         ))}
-
-        <SidebarLogoutItem onClick={handleSignOut} label="" />
+        <div className="shrink-0 mt-auto">
+          <SidebarLogoutItem onClick={handleSignOut} label="logout" />
+        </div>
       </ul>
-    </>
+    </div>
   );
 }

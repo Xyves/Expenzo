@@ -11,11 +11,11 @@ export default function MainLayout({ children }: ChildrenProps) {
   return (
     <RootLayout>
       <ClientLayoutWrapper>
-        <div className="flex h-screen">
-          <div className="w-16 md:w-72 flex ">
+        <div className="flex h-screen overflow-y-hidden">
+          <div className="w-16 md:w-72 flex h-full">
             <Sidebar />
           </div>
-          <div className="flex-grow h-full bg-[#202f4c]">{children}</div>
+          <div className="grow h-full bg-[#202f4c]">{children}</div>
         </div>
       </ClientLayoutWrapper>
       <ModalPortalWrapper>
